@@ -19,6 +19,7 @@ setuptools.setup(
     install_requires=[
         # 'python>=3.6',
         'jupyter>=1.0.0',
+        'jupyter-datainputtable',
         #'pandas>=0.22.0'
     ],
     classifiers=[

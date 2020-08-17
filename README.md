@@ -1,11 +1,9 @@
-**jupyter-instructortools**
-
+# jupyter-instructortools
 This adds a menu to the Jupyter menubar that automates some useful tasks an instructor might
 want to do while building a notebook template for an assignment
 
-**Current Features:**
-
-* Menu activated by a python command.
+## Current Features:
+* Menu activated by the python command `from InstructorTools import *`.
 * Menu items to protect/unprotect selected cells. Protected cells cannot be editted or deleted
 by the user. This is a good way to prevent instructions and example code from being damaged
 by students.
@@ -21,12 +19,11 @@ kernel. Tables are viewable, but not editable in a plain vanilla Jupyter install
 * Menu item to delete instructor tools from a notebook before making the worksheet
 available.
 
-**Installation**
+## Installation
+### _Production_
+__Option 1__: for use on your own computer or personal account.
 
 Installation using pip into a virtual environment is recommended.
-
-_Production_
-
 1. If not installed, install pipenv:`$ pip3 install --user pipenv`. You may
 need to add `~/.local/bin` to your `PATH` to make `pipenv`
 available in your command shell. More discussion: 
@@ -52,11 +49,23 @@ available in your command shell. More discussion:
     `$ python -m ipykernel install --user --name=<name-you-want-for-kernel>`.
     1. More information is available in the Jupyter/Ipython documentation. A simple tutorial from Nikolai Jankiev
     (_Parametric Thoughts_) can be found [here](https://janakiev.com/til/jupyter-virtual-envs/). 
-    
-_Development_
-
+ 
+ __Option 2__: for use in only one account on a Jupyterhub (Instructor only).
+ 
+ Installation as a folder in the account home directory is recommended.
+ 
+ 1. Download the latest version .tar.gz [from PyPi](https://pypi.org/project/jupyter-instructortools/#files) 
+ or a .gz [from github](https://github.com/JupyterPhysSciLab/jupyter-instructortools).
+ 1. Transfer this compressed file to the home directory of the account it will 
+ be used in.
+ 1. Open a terminal and decompress the archive.
+ 1. Move the folder from the decompessed archive titled "InstructorTools" to
+ the home directory of the account. The tools should now be available for
+ import into any notebook run in this account.
+ 
+### _Development_
 Simply replace `$ pip install jupyter-instructortools` with `$ pip install -e jupyter-instructortools` in the _Production_ instructions.
 
-**Issues or comments**
+## Issues or comments
 
 [JupyterPhysSciLab/jupyter-instructortools](https://github.com/JupyterPhysSciLab/jupyter-instructortools)

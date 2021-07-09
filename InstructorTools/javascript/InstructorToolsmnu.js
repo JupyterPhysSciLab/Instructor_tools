@@ -22,6 +22,9 @@ function createInstructorToolsMenu(){
             if (lastvalue=='Deactivate this menu'){
                 deleteInstructorToolsMenu();
             }
+            if (lastvalue=='!deactivate permanently!'){
+                deleteInstructorToolsMenuPerm();
+            }
         }
         var optiontxt = '<option title="Insert an Instructor Tool.">Instructor Tools</option>';
         optiontxt+='<option title="Insert cell below selected and create a data entry table.">Insert Data Entry Table...</option>';
@@ -29,8 +32,10 @@ function createInstructorToolsMenu(){
         optiontxt+='<option title="Allow editting of selected cells.">Deprotect Selected Cells</option>';
         optiontxt+='<option title="Temporarily highlight protected cells in pink.">Indicate Protected Cells</option>';
         optiontxt+='<option>----</option>';
-        optiontxt+='<option title="Remove/deactivate this menu. Use python command `from InstructorTools import *` to reactivate">'
+        optiontxt+='<option title="Remove/deactivate this menu. Use python command `from InstructorTools import *` to reactivate">';
         optiontxt+='Deactivate this menu</option>';
+        optiontxt+='<option title="Remove menu permanently. Blocks reinstalling.">';
+        optiontxt+='!deactivate permanently!</option>';
         newselect.innerHTML=optiontxt;
         document.getElementById('maintoolbar-container').appendChild(newselect);
     }
@@ -39,6 +44,27 @@ function createInstructorToolsMenu(){
 function deleteInstructorToolsMenu(){
     if(document.getElementById('InstructorToolsmnu')){
         document.getElementById('InstructorToolsmnu').remove();
+    }
+    var celllist = Jupyter.notebook.get_cells();
+    for (var i = 0;i<celllist.length;i++){
+        if(celllist[i].get_text().indexOf('from InstructorTools import *') !== -1){
+            //delete the cell
+            var cellindex=Jupyter.notebook.find_cell_index(celllist[i]);
+            //alert('cellindex: '+cellindex)
+            Jupyter.notebook.delete_cell(cellindex);
+        }
+        if(celllist[i].get_text().indexOf('instmenu_act()') !== -1){
+            //delete the cell
+            var cellindex=Jupyter.notebook.find_cell_index(celllist[i]);
+            //alert('cellindex: '+cellindex)
+            Jupyter.notebook.delete_cell(cellindex);
+        }
+    }
+}
+function deleteInstructorToolsMenuPerm(){
+    if(document.getElementById('InstructorToolsmnu')){
+        document.getElementById('InstructorToolsmnu').innerHTML='';
+        document.getElementByID('InstructorToolsmnu').classList.add('hidden');
     }
     var celllist = Jupyter.notebook.get_cells();
     for (var i = 0;i<celllist.length;i++){

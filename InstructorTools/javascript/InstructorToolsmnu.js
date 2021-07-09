@@ -1,4 +1,10 @@
 function createInstructorToolsMenu(){
+    var donotinstall = Jupyter.notebook.metadata.noinstructortool;
+    if (donotinstall){
+        alert('Instructor Tools may not be installed in this notebook!');
+        deleteInstructorToolsMenuPerm();
+        return;
+    }
     if(!document.getElementById('InstructorToolsmnu')){
         var newselect=document.createElement('select');
         newselect.id = 'InstructorToolsmnu';
@@ -63,9 +69,9 @@ function deleteInstructorToolsMenu(){
 }
 function deleteInstructorToolsMenuPerm(){
     if(document.getElementById('InstructorToolsmnu')){
-        document.getElementById('InstructorToolsmnu').innerHTML='';
-        document.getElementByID('InstructorToolsmnu').classList.add('hidden');
+        document.getElementById('InstructorToolsmnu').remove();
     }
+    Jupyter.notebook.metadata.noinstructortool=true;
     var celllist = Jupyter.notebook.get_cells();
     for (var i = 0;i<celllist.length;i++){
         if(celllist[i].get_text().indexOf('from InstructorTools import *') !== -1){

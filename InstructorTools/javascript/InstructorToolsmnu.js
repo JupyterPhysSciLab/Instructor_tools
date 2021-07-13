@@ -143,14 +143,14 @@ function insert_init_boilerplate(){
     mkdstr += " the right of the Jupyter toolbars. If the notebook is not \
     trusted";
     mkdstr += " you need to click on the \"not trusted\" button and trust the";
-    mkdstr += " mnotebook. **You should only trust notebooks that come from a";
+    mkdstr += " notebook. **You should only trust notebooks that come from a";
     mkdstr += " *trusted source*, such as the class website.**\n";
     mkdstr += " 2. The cell immediately below contains code that loads the";
     mkdstr += " software modules necessary for this notebook to run. It also";
     mkdstr += " collects some bookkeeping information that can be used for";
     mkdstr += " troubleshooting. **You must run this cell each time you use";
     mkdstr += " the notebook or later cells may not work.**\n";
-    mkdstr += " 3. If you doing calculations that depend on";
+    mkdstr += " 3. If you are doing calculations that depend upon";
     mkdstr += " using variables passed from calculations done the previous";
     mkdstr += " time the notebook was opened, you will need to run those";
     mkdstr += " previous cells to redefine the variables.\n";

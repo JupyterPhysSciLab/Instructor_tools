@@ -115,9 +115,10 @@ available in your command shell. More discussion:
  
 #### _Development_
 Simply replace `$ pip install jupyter-instructortools` with
-`$ pip install -e jupyter-instructortools` in the _Production_ instructions.
+`$ pip install -e ../jupyter-instructortools` in the _Production_ instructions.
 
 ### Change Log
+  * 0.5.2 Better messages and Readme updates.
   * 0.5.1
     * Added permanently deactivate menu option.
     * Added get names and timestamp option.

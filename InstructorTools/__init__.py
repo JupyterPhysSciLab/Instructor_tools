@@ -25,10 +25,10 @@ def instmenu_act():
     tempscript += tempJSfile.read() + '</script>'
     tempJSfile.close()
     display(HTML(tempscript))
-    display(JS('createInstructorToolsMenu()'))
-    warnstr = "This cell should only contain `from InstructorTools import *`"
+    OTJS('createInstructorToolsMenu()')
+    warnstr = "This cell should only contain `import InstructorTools`"
     warnstr += " as it will be deleted when the tools"
-    warnstr+= " are deactivated. \n WARNING if you select the '!deactivate "
+    warnstr+= " are deactivated.\n\nWARNING: if you select the '!deactivate "
     warnstr+= " permanently!' option to make a student worksheet, the menu "
     warnstr+= "cannot be reactivated. Only use that option on a copy you "
     warnstr+= "intend to pass out to students."

@@ -90,7 +90,7 @@ available in your command shell. More discussion:
 `$ jupyter notebook`. Jupyter should launch in your browser.
         1. Open a new notebook using the default (Python 3) kernel.
         1. In the first cell import the InstructorTools module:
-            `from InstructorTools import *`
+            `import InstructorTools`
         1. The `InstructorTools` menu should be added to the Jupyter menu bar.
 1. _Optional_ You can make this environment available to an alternate Jupyter install as a special kernel when you are the user.
     1. Make sure you are running in your virtual environment `$ pipenv shell` in the directory for  virtual

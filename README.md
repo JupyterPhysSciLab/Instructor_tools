@@ -109,7 +109,7 @@ available in your command shell. More discussion:
  1. Transfer this compressed file to the home directory of the account it will 
  be used in.
  1. Open a terminal and decompress the archive.
- 1. Move the folder from the decompessed archive titled "InstructorTools" to
+ 1. Move the folder from the decompressed archive titled "InstructorTools" to
  the home directory of the account. The tools should now be available for
  import into any notebook run in this account.
  

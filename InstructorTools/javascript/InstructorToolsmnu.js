@@ -148,7 +148,7 @@ function insert_init_boilerplate(){
     mkdstr += " 2. The cell immediately below contains code that loads the";
     mkdstr += " software modules necessary for this notebook to run. It also";
     mkdstr += " collects some bookkeeping information that can be used for";
-    mkdstr += " troubleshooting. **You must run this cell each time you use";
+    mkdstr += " troubleshooting. **You must run this cell each time you open";
     mkdstr += " the notebook or later cells may not work.**\n";
     mkdstr += " 3. If you are doing calculations that depend upon";
     mkdstr += " using variables passed from calculations done the previous";

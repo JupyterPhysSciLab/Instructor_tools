@@ -214,7 +214,7 @@ function insert_getnames_timestamp(){
 
 function indicate_cell_contains_instructions(){
     var text = '<div style="border-color:lightblue;border-style:solid; \
-    float:left;height:100%;margin-right:4px;"></div>\n\n';
+    float:left;height:100%;margin-right:4px;margin-bottom:94px;"></div>\n\n';
     JPSLUtils.insert_text_at_beginning_of_current_cell(text);
     var currentcell = Jupyter.notebook.get_selected_cell();
     var cellindex=Jupyter.notebook.find_cell_index(currentcell);

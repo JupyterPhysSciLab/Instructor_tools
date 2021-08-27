@@ -1,7 +1,7 @@
 ## jupyter-instructortools
 [Introduction](#introduction) | [Current Menu Items](#current-menu-items) | 
 [Typical workflow](#typical-workflow) | [Installation](#installation) | 
-[Issues or Comments](#issues-or-comments) | 
+[Change log](#change-log) | [Issues or Comments](#issues-or-comments) | 
 [License](#this-software-is-distributed-under-the-gnu-v3-licensehttpsgnuorglicenses)
 ### Introduction
 This adds a menu to the Jupyter toolbar that automates some useful tasks an
@@ -10,11 +10,8 @@ assignment. This is part of the
 [Jupyter Physical Science Lab project](https://github.com/JupyterPhysSciLab).
 
 #### Current Menu Items:
-* Menu activated by the python command `import InstructorTools`.
-* Menu items to protect/unprotect selected cells. Protected cells cannot be 
-  edited or deleted by the user. This is a good way to prevent instructions
-  and example code from being damaged by students.
-* Menu item for creating a data input table.
+The menu is activated by the python command `import InstructorTools`.
+* Create a data input table.
     * Table column and row labels can be locked once set.
     * Number of rows and columns must be chosen on initial creation.
     * Table will survive deletion of all cell output data.
@@ -24,54 +21,70 @@ assignment. This is part of the
       Jupyter kernel. Tables are viewable, but not editable in a plain vanilla
       Jupyter install.
     * This uses the `jupyter-datainputtable` package.
-* Menu item to delete instructor tools from a notebook before making the
+* Protect/unprotect selected cells. Protected cells cannot be 
+  edited or deleted by the user. This is a good way to prevent instructions
+  and example code from being damaged by students.
+* Set/un-set selected cells as allowed to be hidden. This can be used to mark
+  cells to hide before producing a pdf to turn in.
+* Delete instructor tools from a notebook before making the
   worksheet available.
-* Menu item to delete instructor tools and prevent reinstallation in the
+* Delete instructor tools and prevent reinstallation in the
   notebook.
-* Menu item to insert code to automatically timestamp the notebook and 
-  collect names from students. The cell this is inserted into becomes protected
+* Insert code to automatically timestamp the notebook and 
+  collect names from students. The code is inserted at the end of the 
+  currently selected cell. The cell becomes protected
   against editing and deletion. This is a good cell to include initialization
   imports in.
-* Menu item to insert, immediately below the current cell, a markdown cell 
-  with boilerplate instructions on initializing a notebook. Insert this 
+* Insert a markdown cell with boilerplate instructions on initializing a
+  notebook. This cell will be inserted below the selected cell. Insert this 
   immediately above the initialization and timestamping cell. Then edit to 
   meet your needs.
   
 #### Typical workflow
 Work in a virtual environment that includes this tool plus all the tools
-the students will have access to. See [Installation](#installation) for
-information on setting up a virtual environment.
+the students will have access to. This is probably best done using the 
+[JPSLInstructor pseudo package](https://github.com/JupyterPhysSciLab/JPSLInstructor).
+If you want to do this in pieces see [Installation](#installation)
+for information on setting up a virtual environment and installing just 
+this package.
 
 1. Start the jupyter notebook server (from the command line `jupyter 
    notebook`).
-1. Open a new notebook and type `import InstructorTools` into the first 
+2. Open a new notebook and type `import InstructorTools` into the first 
    cell. Run the cell.
-1. Build the exercise including instructions, examples, tables (use the menu) 
+3. Build the exercise including instructions, examples, tables (use the menu) 
    and imports.
-1. Collect all the necessary imports into a code cell that will be the 
+4. Collect all the necessary imports into a code cell that will be the 
    first code cell in the worksheet. You may want introductory material 
    before this cell.
-1. Use the menu to add to this initialization cell the command to get the 
+5. Use the menu to add to this initialization cell the command to get the 
    student names and timestamp the notebook. This will simultaneously 
    protect the cell.
-1. Use the menu to protect any cells you do not want students to 
+6. Use the menu to protect any cells you do not want students to 
    accidentally alter.
-1. Restart the kernel and clear all cell outputs. Delete or emtpy any cells 
+7. Use the menu to tag cells so they can be hidden. This allows students to 
+   print a compressed version of the notebook for grading. Consider hiding 
+   most of the instructions.
+8. Restart the kernel and clear all cell outputs. Delete or emtpy any cells 
    that have things you want the students to be filling in.
-1. Save the notebook and make a duplicate of it. Continue working with the 
+9. Save the notebook and make a duplicate of it. Continue working with the 
    duplicate.
-1. Work through the notebook as if you were a student, make adjustments as 
-   you go. Iterate restarting the kernel, clearing the cell outputs, saving,
-   duplicating and working though until satisfied.
-1. Save the final version of the worksheet. Duplicate it.
-1. Open the duplicate worksheet. Make sure all the cell data is cleared. 
-   Then select `!deactivate permanently!` from the Instructor Tools menu. 
-   This will deactivate the menu and block students from easily 
-   reinstalling it. Save the notebook and distribute this copy to students.
+10. Work through the notebook as if you were a student, make adjustments as 
+    you go. Iterate restarting the kernel, clearing the cell outputs, saving,
+    duplicating and working though until satisfied.
+11. Save the final version of the worksheet. Duplicate it.
+12. Open the duplicate worksheet. Make sure all the appropriate cell data is 
+    cleared. Then select `!deactivate permanently!` from the Instructor Tools
+    menu. This will deactivate the menu and block students from easily 
+    reinstalling it. Save the notebook and distribute this copy to students.
    
 ### Installation
 #### _Production_
-__Option 1__: for use on your own computer or personal account.
+__Option 1__: Recommended as this will install all of the Jupyter Physical 
+Science Lab packages an Instructor needs. Use the
+[JPSLInstructor pseudo package](https://github.com/JupyterPhysSciLab/JPSLInstructor).
+
+__Option 2__: Installing just this package and its requirements.
 
 Installation using pip into a virtual environment is recommended.
 1. If not installed, install pipenv:`$ pip3 install --user pipenv`. You may
@@ -100,7 +113,7 @@ available in your command shell. More discussion:
     1. More information is available in the Jupyter/Ipython documentation. A simple tutorial from Nikolai Jankiev
     (_Parametric Thoughts_) can be found [here](https://janakiev.com/til/jupyter-virtual-envs/). 
  
- __Option 2__: for use in only one account on a Jupyterhub (Instructor only).
+ __Option 3__: for use in only one account on a Jupyterhub (Instructor only).
  
  Installation as a folder in the account home directory is recommended.
  
@@ -118,12 +131,18 @@ Simply replace `$ pip install jupyter-instructortools` with
 `$ pip install -e ../jupyter-instructortools` in the _Production_ instructions.
 
 ### Change Log
+  * 0.5.3 
+    * Added options to flag cells as allowed to be hidden.
+    * Added ability to test hide/show of cells.
+    * README updates.
   * 0.5.2 Better messages and Readme updates.
   * 0.5.1
     * Added permanently deactivate menu option.
     * Added get names and timestamp option.
     * Added insert boilerplate about initializing notebook option.
-    * Began using JPSLUtils for tools used across JupyterPhysSciLab.
+    * Began using
+      [JPSLUtils](https://github.com/JupyterPhysSciLab/JPSLUtils)
+      for tools used across JupyterPhysSciLab.
     * Updated README, included suggested workflow, license and more details.
   * 0.5.0 Initial release.
 ### Issues or comments

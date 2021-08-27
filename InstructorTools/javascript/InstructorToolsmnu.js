@@ -38,7 +38,7 @@ function createInstructorToolsMenu(){
                 JPSLUtils.hide_hide_on_print_cells();
             }
             if (lastvalue=='Undo Hide Cells'){
-                show_hide_on_print_cells();
+                JPSLUtils.show_hide_on_print_cells();
             }
             if (lastvalue=='Insert get names and timestamp'){
                 insert_getnames_timestamp();
@@ -53,16 +53,18 @@ function createInstructorToolsMenu(){
                 insert_init_boilerplate();
             }
         }
-        var optiontxt = '<option title="Choose an Instructor Tool">Instructor \
-        Tools</option>';
+        var optiontxt = '<option title="Choose an Instructor Tool"> \
+        Instructor Tools</option>';
         optiontxt+='<option title="Insert cell below selected and create a \
         data entry table.">Insert Data Entry Table...</option>';
+        optiontxt+='<option disabled>----</option>';
         optiontxt+='<option title="Prevent editing of selected cells."> \
         Protect Selected Cells</option>';
         optiontxt+='<option title="Allow editing of selected cells."> \
         Deprotect Selected Cells</option>';
         optiontxt+='<option title="Temporarily highlight protected cells in \
         pink.">Indicate Protected Cells</option>';
+        optiontxt+='<option disabled>----</option>';
         optiontxt+='<option title="Set selected cells to hide-on-print."> \
         Allow Hiding Selected Cells</option>';
         optiontxt+='<option title="Unset hide-on-print of selected cells."> \
@@ -79,6 +81,7 @@ function createInstructorToolsMenu(){
         optiontxt+='Insert get names and timestamp</option>';
         optiontxt+='<option title="Insert boilerplate about initialization in \
         next cell">Insert initialization boilerplate</option>';
+        optiontxt+='<option disabled>----</option>';
         optiontxt+='<option title="Remove/deactivate this menu. Use python \
         command `import InstructorTools` to reactivate">';
         optiontxt+='Deactivate this menu</option>';
@@ -165,6 +168,8 @@ function mark_protected_cells(){
 function set_hide_selected_cells_on_print(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
+        if (!celllist[i].metadata.JPSL){
+        celllist[i].metadata.JPSL={}}
         celllist[i].metadata.JPSL.hide_on_print=true;
         celllist[i].element.children()[0].setAttribute("style",
         "background-color:magenta;");
@@ -174,6 +179,8 @@ function set_hide_selected_cells_on_print(){
 function unset_hide_selected_cells_on_print(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
+        if (!celllist[i].metadata.JPSL){
+        celllist[i].metadata.JPSL={}}
         celllist[i].metadata.JPSL.hide_on_print=false;
         celllist[i].element.children()[0].removeAttribute("style");
     }

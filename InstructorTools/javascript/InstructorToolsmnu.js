@@ -25,6 +25,21 @@ function createInstructorToolsMenu(){
             if (lastvalue=='Indicate Protected Cells'){
                 mark_protected_cells();
             }
+            if (lastvalue=='Allow Hiding Selected Cells'){
+                set_hide_selected_cells_on_print();
+            }
+            if (lastvalue=='Disallow Hiding Selected Cells'){
+                unset_hide_selected_cells_on_print();
+            }
+            if (lastvalue=='Indicate Cells Allowed to Hide'){
+                mark_hide_on_print_cells();
+            }
+            if (lastvalue=='Test Hide Cells'){
+                JPSLUtils.hide_hide_on_print_cells();
+            }
+            if (lastvalue=='Undo Hide Cells'){
+                show_hide_on_print_cells();
+            }
             if (lastvalue=='Insert get names and timestamp'){
                 insert_getnames_timestamp();
             }
@@ -38,16 +53,34 @@ function createInstructorToolsMenu(){
                 insert_init_boilerplate();
             }
         }
-        var optiontxt = '<option title="Insert an Instructor Tool">Instructor Tools</option>';
-        optiontxt+='<option title="Insert cell below selected and create a data entry table.">Insert Data Entry Table...</option>';
-        optiontxt+='<option title="Prevent editting of selected cells.">Protect Selected Cells</option>';
-        optiontxt+='<option title="Allow editting of selected cells.">Deprotect Selected Cells</option>';
-        optiontxt+='<option title="Temporarily highlight protected cells in pink.">Indicate Protected Cells</option>';
+        var optiontxt = '<option title="Choose an Instructor Tool">Instructor \
+        Tools</option>';
+        optiontxt+='<option title="Insert cell below selected and create a \
+        data entry table.">Insert Data Entry Table...</option>';
+        optiontxt+='<option title="Prevent editing of selected cells."> \
+        Protect Selected Cells</option>';
+        optiontxt+='<option title="Allow editing of selected cells."> \
+        Deprotect Selected Cells</option>';
+        optiontxt+='<option title="Temporarily highlight protected cells in \
+        pink.">Indicate Protected Cells</option>';
+        optiontxt+='<option title="Set selected cells to hide-on-print."> \
+        Allow Hiding Selected Cells</option>';
+        optiontxt+='<option title="Unset hide-on-print of selected cells."> \
+        Disallow Hiding Selected Cells</option>';
+        optiontxt+='<option title="Temporarily highlight hide-on-print cells \
+        in magenta">Indicate Cells Allowed to Hide</option>';
+        optiontxt+='<option title="Hide cells set to hide-on-print">Test \
+        Hide Cells</option>';
+        optiontxt+='<option title="Redisplay cells set to hide-on-print"> \
+        Undo Hide Cells</option>';
         optiontxt+='<option disabled>----</option>';
-        optiontxt+='<option title="Insert get names and timestamp function into current cell. Also locks the cell to editing.">';
+        optiontxt+='<option title="Insert get names and timestamp function \
+        into current cell. Also locks the cell to editing.">';
         optiontxt+='Insert get names and timestamp</option>';
-        optiontxt+='<option title="Insert boilerplate about initialization in next cell">Insert initialization boilerplate</option>';
-        optiontxt+='<option title="Remove/deactivate this menu. Use python command `import InstructorTools` to reactivate">';
+        optiontxt+='<option title="Insert boilerplate about initialization in \
+        next cell">Insert initialization boilerplate</option>';
+        optiontxt+='<option title="Remove/deactivate this menu. Use python \
+        command `import InstructorTools` to reactivate">';
         optiontxt+='Deactivate this menu</option>';
         optiontxt+='<option title="Remove menu permanently. Blocks reinstalling.">';
         optiontxt+='!deactivate permanently!</option>';
@@ -125,6 +158,37 @@ function mark_protected_cells(){
         celllist[i].element.children()[0].setAttribute("style","background-color:pink;");
         } else {
         celllist[i].element.children()[0].removeAttribute("style");
+        }
+    }
+}
+
+function set_hide_selected_cells_on_print(){
+    var celllist = Jupyter.notebook.get_selected_cells();
+    for (var i = 0;i<celllist.length;i++){
+        celllist[i].metadata.JPSL.hide_on_print=true;
+        celllist[i].element.children()[0].setAttribute("style",
+        "background-color:magenta;");
+        }
+}
+
+function unset_hide_selected_cells_on_print(){
+    var celllist = Jupyter.notebook.get_selected_cells();
+    for (var i = 0;i<celllist.length;i++){
+        celllist[i].metadata.JPSL.hide_on_print=false;
+        celllist[i].element.children()[0].removeAttribute("style");
+    }
+}
+
+function mark_hide_on_print_cells(){
+    var celllist = Jupyter.notebook.get_cells();
+    for (var i = 0;i<celllist.length;i++){
+        if (celllist[i].metadata.JPSL){
+            if (celllist[i].metadata.JPSL.hide_on_print==true){
+                celllist[i].element.children()[0].setAttribute("style",
+                "background-color:magenta;");
+                } else {
+                celllist[i].element.children()[0].removeAttribute("style");
+            }
         }
     }
 }

@@ -11,7 +11,7 @@ from IPython.display import Javascript as JS
 import os
 # Instructor tools menu
 from input_table import * #import the input table builder
-from JPSLUtils import * # import the Utilities
+import JPSLUtils # import the Utilities
 # Locate JupyterPiDAQ package directory
 mydir = os.path.dirname(__file__)  # absolute path to directory containing this file.
 

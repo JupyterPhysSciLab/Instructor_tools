@@ -25,7 +25,7 @@ def instmenu_act():
     tempscript += tempJSfile.read() + '</script>'
     tempJSfile.close()
     display(HTML(tempscript))
-    OTJS('createInstructorToolsMenu()')
+    JPSLUtils.OTJS('createInstructorToolsMenu()')
     warnstr = "This cell should only contain `import InstructorTools`"
     warnstr += " as it will be deleted when the tools"
     warnstr+= " are deactivated.\n\nWARNING: if you select the '!deactivate "

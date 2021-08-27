@@ -21,6 +21,9 @@ The menu is activated by the python command `import InstructorTools`.
       Jupyter kernel. Tables are viewable, but not editable in a plain vanilla
       Jupyter install.
     * This uses the `jupyter-datainputtable` package.
+* Add light blue highlight bar to left of a selected markdown cell to 
+  indicate it contains instructions. Can be removed by deleting the `<div>` 
+  inserted at the beginning of the cell.
 * Protect/unprotect selected cells. Protected cells cannot be 
   edited or deleted by the user. This is a good way to prevent instructions
   and example code from being damaged by students.
@@ -134,6 +137,8 @@ Simply replace `$ pip install jupyter-instructortools` with
   * 0.5.3 
     * Added options to flag cells as allowed to be hidden.
     * Added ability to test hide/show of cells.
+    * Added ability to place light blue highlight bar at left of markdown 
+      cells.
     * README updates.
   * 0.5.2 Better messages and Readme updates.
   * 0.5.1

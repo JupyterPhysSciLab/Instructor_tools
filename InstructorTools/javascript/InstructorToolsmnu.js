@@ -16,6 +16,9 @@ function createInstructorToolsMenu(){
             if (lastvalue=='Insert Data Entry Table...'){
                 get_table_dim();
             }
+            if (lastvalue=='Mark Cell as Instructions'){
+                indicate_cell_contains_instructions();
+            }
             if (lastvalue=='Protect Selected Cells'){
                 protect_selected_cells();
             }
@@ -57,6 +60,9 @@ function createInstructorToolsMenu(){
         Instructor Tools</option>';
         optiontxt+='<option title="Insert cell below selected and create a \
         data entry table.">Insert Data Entry Table...</option>';
+        optiontxt+='<option title="Add light blue color bar to left of \
+        markdown cell. Used to indicate instructions.">Mark Cell as \
+        Instructions</option>';
         optiontxt+='<option disabled>----</option>';
         optiontxt+='<option title="Prevent editing of selected cells."> \
         Protect Selected Cells</option>';
@@ -204,6 +210,18 @@ function insert_getnames_timestamp(){
     var text = 'import JPSLUtils\nJPSLUtils.record_names_timestamp()';
     JPSLUtils.insert_newline_at_end_of_current_cell(text);
     protect_selected_cells();
+}
+
+function indicate_cell_contains_instructions(){
+    var text = '<div style="border-color:lightblue;border-style:solid; \
+    float:left;height:100%;margin-right:4px;"></div>\n\n';
+    JPSLUtils.insert_text_at_beginning_of_current_cell(text);
+    var currentcell = Jupyter.notebook.get_selected_cell();
+    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
+    Jupyter.notebook.to_code(cellindex);
+    Jupyter.notebook.to_markdown(cellindex);
+    Jupyter.notebook.focus_cell();
+    Jupyter.notebook.get_selected_cell().execute();
 }
 
 function insert_init_boilerplate(){

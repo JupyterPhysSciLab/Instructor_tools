@@ -134,6 +134,7 @@ Simply replace `$ pip install jupyter-instructortools` with
 `$ pip install -e ../jupyter-instructortools` in the _Production_ instructions.
 
 ### Change Log
+  * 0.5.4 Minor bug fixes and interface tweaks.
   * 0.5.3 
     * Added options to flag cells as allowed to be hidden.
     * Added ability to test hide/show of cells.

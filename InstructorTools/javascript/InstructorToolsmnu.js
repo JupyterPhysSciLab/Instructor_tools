@@ -57,7 +57,7 @@ function createInstructorToolsMenu(){
                 insert_init_boilerplate();
             }
         }
-        var optiontxt = '<option title="Choose an Instructor Tool"> \
+        var optiontxt = '<option title="Choose an option below"> \
         Instructor Tools</option>';
         optiontxt+='<option title="Insert cell below selected and create a \
         data entry table.">Insert Data Entry Table...</option>';

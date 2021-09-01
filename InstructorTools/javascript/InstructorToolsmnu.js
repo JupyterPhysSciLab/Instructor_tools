@@ -10,6 +10,7 @@ function createInstructorToolsMenu(){
         newselect.id = 'InstructorToolsmnu';
         newselect.classList.add('form-control'); //class to match notebook formatting
         newselect.classList.add('select-xs'); //class to match notebook formatting
+        newselect.setAttribute('style','color:blue;');
         newselect.onchange=function(){
             var lastvalue = this.value;
             this.value='Instructor Tools';

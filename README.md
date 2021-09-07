@@ -29,6 +29,9 @@ The menu is activated by the python command `import InstructorTools`.
   and example code from being damaged by students.
 * Set/un-set selected cells as allowed to be hidden. This can be used to mark
   cells to hide before producing a pdf to turn in.
+* Set/un-set selected cells to hide code before printing.
+* Set/un-set selected cells to hide code in JPSL.
+* Temporarily highlight each kind of "hidden/hide" cell.
 * Delete instructor tools from a notebook before making the
   worksheet available.
 * Delete instructor tools and prevent reinstallation in the
@@ -134,6 +137,11 @@ Simply replace `$ pip install jupyter-instructortools` with
 `$ pip install -e ../jupyter-instructortools` in the _Production_ instructions.
 
 ### Change Log
+  * 0.5.5
+    * Added option to flag cells as hide_code_on_print.
+    * Added option to flag cells as hide_code (auto-hidden in
+    JPSL).
+    * Added ability to highlight these cells.
   * 0.5.4 Minor bug fixes and interface tweaks.
   * 0.5.3 
     * Added options to flag cells as allowed to be hidden.

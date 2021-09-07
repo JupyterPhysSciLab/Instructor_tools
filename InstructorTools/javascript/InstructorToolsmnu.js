@@ -38,11 +38,29 @@ function createInstructorToolsMenu(){
             if (lastvalue=='Indicate Cells Allowed to Hide'){
                 mark_hide_on_print_cells();
             }
-            if (lastvalue=='Test Hide Cells'){
+            if (lastvalue=='Allow Hiding Selected Code'){
+                set_hide_code_on_print();
+            }
+            if (lastvalue=='Disallow Hiding Selected Code'){
+                unset_hide_code_on_print();
+            }
+            if (lastvalue=='Indicate Code Allowed to Hide'){
+                mark_hide_code_on_print_cells();
+            }
+            if (lastvalue=='Test Hide on Print'){
                 JPSLUtils.hide_hide_on_print_cells();
             }
-            if (lastvalue=='Undo Hide Cells'){
+            if (lastvalue=='Undo Hide on Print'){
                 JPSLUtils.show_hide_on_print_cells();
+            }
+            if (lastvalue=='Set Hide Code in JPSL'){
+                set_hide_code();
+            }
+            if (lastvalue=='Unset Hide Code in JPSL'){
+                unset_hide_code();
+            }
+            if (lastvalue=='Indicate Hide Code in JPSL'){
+                mark_hide_code_cells();
             }
             if (lastvalue=='Insert get names and timestamp'){
                 insert_getnames_timestamp();
@@ -78,10 +96,23 @@ function createInstructorToolsMenu(){
         Disallow Hiding Selected Cells</option>';
         optiontxt+='<option title="Temporarily highlight hide-on-print cells \
         in magenta">Indicate Cells Allowed to Hide</option>';
-        optiontxt+='<option title="Hide cells set to hide-on-print">Test \
-        Hide Cells</option>';
+        optiontxt+='<option title="Set selected to hide-code-on-print."> \
+        Allow Hiding Selected Code</option>';
+        optiontxt+='<option title="Unset selected to hide-code-on-print."> \
+        Disallow Hiding Selected Code</option>';
+        optiontxt+='<option title="Temporarily highlight hide-code-on-print \
+        cells in orange.">Indicate Code Allowed to Hide</option>';
+        optiontxt+='<option title="Hide cells set to hide-on-print or \
+        hide-code-on-print">Test Hide on Print</option>';
         optiontxt+='<option title="Redisplay cells set to hide-on-print"> \
-        Undo Hide Cells</option>';
+        Undo Hide on Print</option>';
+        optiontxt+='<option disabled>----</option>';
+        optiontxt+='<option title="Set selected to hide-code in JPSL."> \
+        Set Hide Code in JPSL</option>';
+        optiontxt+='<option title="Unset selected to hide-code in JPSL."> \
+        Unset Hide Code in JPSL</option>';
+        optiontxt+='<option title="Temporarily highlight hide-code in JPSL \
+        cells in yellow.">Indicate Hide Code in JPSL</option>';
         optiontxt+='<option disabled>----</option>';
         optiontxt+='<option title="Insert get names and timestamp function \
         into current cell. Also locks the cell to editing.">';
@@ -207,6 +238,75 @@ function mark_hide_on_print_cells(){
     }
 }
 
+function set_hide_code_on_print(){
+    var celllist = Jupyter.notebook.get_selected_cells();
+    for (var i = 0;i<celllist.length;i++){
+        if (!celllist[i].metadata.JPSL){
+        celllist[i].metadata.JPSL={}}
+        celllist[i].metadata.JPSL.hide_code_on_print=true;
+        celllist[i].element.children()[0].setAttribute("style",
+        "background-color:orange;");
+        }
+}
+
+function unset_hide_code_on_print(){
+    var celllist = Jupyter.notebook.get_selected_cells();
+    for (var i = 0;i<celllist.length;i++){
+        if (!celllist[i].metadata.JPSL){
+        celllist[i].metadata.JPSL={}}
+        celllist[i].metadata.JPSL.hide_code_on_print=false;
+        celllist[i].element.children()[0].removeAttribute("style");
+        }
+}
+
+function mark_hide_code_on_print_cells(){
+    var celllist = Jupyter.notebook.get_cells();
+    for (var i = 0;i<celllist.length;i++){
+        if (celllist[i].metadata.JPSL){
+            if (celllist[i].metadata.JPSL.hide_code_on_print==true){
+                celllist[i].element.children()[0].setAttribute("style",
+                "background-color:orange;");
+                } else {
+                celllist[i].element.children()[0].removeAttribute("style");
+            }
+        }
+    }
+}
+
+function set_hide_code(){
+    var celllist = Jupyter.notebook.get_selected_cells();
+    for (var i = 0;i<celllist.length;i++){
+        if (!celllist[i].metadata.JPSL){
+        celllist[i].metadata.JPSL={}}
+        celllist[i].metadata.JPSL.hide_code=true;
+        celllist[i].element.children()[0].setAttribute("style",
+        "background-color:yellow;");
+        }
+}
+
+function unset_hide_code(){
+    var celllist = Jupyter.notebook.get_selected_cells();
+    for (var i = 0;i<celllist.length;i++){
+        if (!celllist[i].metadata.JPSL){
+        celllist[i].metadata.JPSL={}}
+        celllist[i].metadata.JPSL.hide_code=false;
+        celllist[i].element.children()[0].removeAttribute("style");
+        }
+}
+
+function mark_hide_code_cells(){
+    var celllist = Jupyter.notebook.get_cells();
+    for (var i = 0;i<celllist.length;i++){
+        if (celllist[i].metadata.JPSL){
+            if (celllist[i].metadata.JPSL.hide_code==true){
+                celllist[i].element.children()[0].setAttribute("style",
+                "background-color:yellow;");
+                } else {
+                celllist[i].element.children()[0].removeAttribute("style");
+            }
+        }
+    }
+}
 function insert_getnames_timestamp(){
     var text = 'import JPSLUtils\nJPSLUtils.record_names_timestamp()';
     JPSLUtils.insert_newline_at_end_of_current_cell(text);

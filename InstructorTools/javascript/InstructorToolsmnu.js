@@ -17,8 +17,14 @@ function createInstructorToolsMenu(){
             if (lastvalue=='Insert Data Entry Table...'){
                 get_table_dim();
             }
-            if (lastvalue=='Mark Cell as Instructions'){
-                indicate_cell_contains_instructions();
+            if (lastvalue=='Insert green start bar'){
+                insert_green_start_bar();
+            }
+            if (lastvalue=='Insert brown stop bar'){
+                insert_brown_stop_bar();
+            }
+            if (lastvalue=='Insert left chrome hilight'){
+                insert_left_chrome_hilight();
             }
             if (lastvalue=='Protect Selected Cells'){
                 protect_selected_cells();
@@ -79,9 +85,13 @@ function createInstructorToolsMenu(){
         Instructor Tools</option>';
         optiontxt+='<option title="Insert cell below selected and create a \
         data entry table.">Insert Data Entry Table...</option>';
-        optiontxt+='<option title="Add light blue color bar to left of \
-        markdown cell. Used to indicate instructions.">Mark Cell as \
-        Instructions</option>';
+        optiontxt+='<option title="Add green start bar at top of markdown \
+        cell.">Insert green start bar</option>;'
+        optiontxt+='<option title="Add brown stop bar at bottom of markdown \
+        cell.">Insert brown stop bar</option>;'
+        optiontxt+='<option title="Add color bar to left side of \
+        markdown cell. Works well only in Chrome Browser.">Insert left chrome \
+        hilight</option>';
         optiontxt+='<option disabled>----</option>';
         optiontxt+='<option title="Prevent editing of selected cells."> \
         Protect Selected Cells</option>';
@@ -317,6 +327,45 @@ function indicate_cell_contains_instructions(){
     var text = '<div style="border-color:lightblue;border-style:solid; \
     float:left;height:100%;margin-right:4px;margin-bottom:94px;"></div>\n\n';
     JPSLUtils.insert_text_at_beginning_of_current_cell(text);
+    var currentcell = Jupyter.notebook.get_selected_cell();
+    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
+    Jupyter.notebook.to_code(cellindex);
+    Jupyter.notebook.to_markdown(cellindex);
+    Jupyter.notebook.focus_cell();
+    Jupyter.notebook.get_selected_cell().execute();
+}
+
+function insert_left_chrome_hilight(){
+    var text = '<div style = "height: 100%; width: 10px; \
+    background-image: radial-gradient(lightyellow,steelblue); \
+    float: left; margin-right: 4px; min-height: 15px;"></div>'
+    JPSLUtils.insert_text_at_beginning_of_current_cell(text);
+    var currentcell = Jupyter.notebook.get_selected_cell();
+    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
+    Jupyter.notebook.to_code(cellindex);
+    Jupyter.notebook.to_markdown(cellindex);
+    Jupyter.notebook.focus_cell();
+    Jupyter.notebook.get_selected_cell().execute();
+}
+
+function insert_green_start_bar(){
+    var text = '<div style = "height: 100%; width: 10px; \
+    background-image: linear-gradient(green,yellow); \
+    float: left; margin-right: 4px; min-height: 15px;"></div>'
+    JPSLUtils.insert_text_at_beginning_of_current_cell(text);
+    var currentcell = Jupyter.notebook.get_selected_cell();
+    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
+    Jupyter.notebook.to_code(cellindex);
+    Jupyter.notebook.to_markdown(cellindex);
+    Jupyter.notebook.focus_cell();
+    Jupyter.notebook.get_selected_cell().execute();
+}
+
+function insert_brown_stop_bar(){
+    var text = '\n<div style = "height: 100%; width: 10px; \
+    background-image: linear-gradient(yellow,brown); \
+    float: left; margin-right: 4px; min-height: 15px;"></div>'
+    JPSLUtils.insert_newline_at_end_of_current_cell(text);
     var currentcell = Jupyter.notebook.get_selected_cell();
     var cellindex=Jupyter.notebook.find_cell_index(currentcell);
     Jupyter.notebook.to_code(cellindex);

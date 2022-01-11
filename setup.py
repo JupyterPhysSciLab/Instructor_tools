@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
     name="jupyter-instructortools",
-    version="0.5.6rc0",
+    version="0.5.6",
     description="Useful tools for instructors creating Jupyter notebook templates.",
     long_description=long_description,
     long_description_content_type="text/markdown",

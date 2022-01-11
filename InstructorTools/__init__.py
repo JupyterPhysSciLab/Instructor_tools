@@ -2,7 +2,7 @@
 # These tools are specificly to aid instructors in setting
 # up notebook templates with embedded instructions and tools
 # for students.
-# J. Gutow <jgutow@new.rr.com> January 30, 2020
+# J. Gutow <jgutow@new.rr.com> January 2021
 # license GPL V3 or greater.
 
 from IPython.display import HTML
@@ -49,4 +49,5 @@ def instmenu_deact():
     print("Delete this cell after the menu has been removed.")
     pass
 
+JPSLUtils.JPSL_Tools_Menu()
 instmenu_act()

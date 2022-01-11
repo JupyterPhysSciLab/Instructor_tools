@@ -19,6 +19,7 @@ setuptools.setup(
     install_requires=[
         # 'python>=3.6',
         'jupyter>=1.0.0',
+        'notebook==6.4.0',
         'jupyter-datainputtable>=0.7.5',
         'JPSLUtils',
         #'pandas>=0.22.0'

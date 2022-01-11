@@ -349,9 +349,8 @@ function insert_left_chrome_hilight(){
 }
 
 function insert_green_start_bar(){
-    var text = '<div style = "height: 100%; width: 10px; \
-    background-image: linear-gradient(green,yellow); \
-    float: left; margin-right: 4px; min-height: 15px;"></div>'
+    var text = '<div style = "height:15px; width: 100%; \
+    background-image: linear-gradient(green,yellow);"></div>\n\n'
     JPSLUtils.insert_text_at_beginning_of_current_cell(text);
     var currentcell = Jupyter.notebook.get_selected_cell();
     var cellindex=Jupyter.notebook.find_cell_index(currentcell);
@@ -362,9 +361,8 @@ function insert_green_start_bar(){
 }
 
 function insert_brown_stop_bar(){
-    var text = '\n<div style = "height: 100%; width: 10px; \
-    background-image: linear-gradient(yellow,brown); \
-    float: left; margin-right: 4px; min-height: 15px;"></div>'
+    var text = '\n<div style = "height: 15px; width: 100%; \
+    background-image: linear-gradient(yellow,brown);"></div>'
     JPSLUtils.insert_newline_at_end_of_current_cell(text);
     var currentcell = Jupyter.notebook.get_selected_cell();
     var cellindex=Jupyter.notebook.find_cell_index(currentcell);

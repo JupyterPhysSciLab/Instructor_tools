@@ -21,9 +21,14 @@ The menu is activated by the python command `import InstructorTools`.
       Jupyter kernel. Tables are viewable, but not editable in a plain vanilla
       Jupyter install.
     * This uses the `jupyter-datainputtable` package.
-* Add light blue highlight bar to left of a selected markdown cell to 
-  indicate it contains instructions. Can be removed by deleting the `<div>` 
-  inserted at the beginning of the cell.
+* Add some highlight bars to a selected markdown cell. These can be removed by 
+  deleting the associated`<div>`:
+  * A vertical chrome-blue bar at the left of the cell (only works reliably 
+    in the Chrome web browser).
+  * A horizontal green start bar (fading down to yellow) at the beginning 
+    of the cell. Useful for indicating the beginning of an instruction block.
+  * A horizontal brown stop bar (fading down from yellow to brown) at the 
+    end of the cell. Useful for indicating the end of an instruction block.
 * Protect/unprotect selected cells. Protected cells cannot be 
   edited or deleted by the user. This is a good way to prevent instructions
   and example code from being damaged by students.
@@ -137,6 +142,12 @@ Simply replace `$ pip install jupyter-instructortools` with
 `$ pip install -e ../jupyter-instructortools` in the _Production_ instructions.
 
 ### Change Log
+  * 0.5.6
+    * Expanded highlight bar options to insert in markdown cells to: 
+      horizontal green start; horizontal brown stop; left vertical 
+      chrome-blue highlight (only works well in Chrome browser).
+    * Pin the notebook version to 6.4.0 because 6.4.1+ has started 
+      stripping all html styling from markdown cells.
   * 0.5.5
     * Added option to flag cells as hide_code_on_print.
     * Added option to flag cells as hide_code (auto-hidden in

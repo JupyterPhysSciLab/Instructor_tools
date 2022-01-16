@@ -142,6 +142,8 @@ Simply replace `$ pip install jupyter-instructortools` with
 `$ pip install -e ../jupyter-instructortools` in the _Production_ instructions.
 
 ### Change Log
+  * 0.5.6.1 require notebook version >=6.4.7 for html styling and security 
+    fixes.
   * 0.5.6
     * Expanded highlight bar options to insert in markdown cells to: 
       horizontal green start; horizontal brown stop; left vertical 

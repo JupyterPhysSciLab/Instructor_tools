@@ -23,8 +23,11 @@ function createInstructorToolsMenu(){
             if (lastvalue=='Insert brown stop bar'){
                 insert_brown_stop_bar();
             }
-            if (lastvalue=='Insert left chrome hilight'){
-                insert_left_chrome_hilight();
+            if (lastvalue=='Insert left cyan highlight'){
+                insert_left_cyan_highlight();
+            }
+            if (lastvalue=='Insert left red highlight'){
+                insert_left_red_highlight();
             }
             if (lastvalue=='Protect Selected Cells'){
                 protect_selected_cells();
@@ -89,9 +92,10 @@ function createInstructorToolsMenu(){
         cell.">Insert green start bar</option>;'
         optiontxt+='<option title="Add brown stop bar at bottom of markdown \
         cell.">Insert brown stop bar</option>;'
-        optiontxt+='<option title="Add color bar to left side of \
-        markdown cell. Works well only in Chrome Browser.">Insert left chrome \
-        hilight</option>';
+        optiontxt+='<option title="Add blue bracket to left side of \
+        markdown cell.">Insert left cyan highlight</option>';
+        optiontxt+='<option title="Add red bracket to left side of \
+        markdown cell.">Insert left red highlight</option>';
         optiontxt+='<option disabled>----</option>';
         optiontxt+='<option title="Prevent editing of selected cells."> \
         Protect Selected Cells</option>';
@@ -324,8 +328,9 @@ function insert_getnames_timestamp(){
 }
 
 function indicate_cell_contains_instructions(){
-    var text = '<div style="border-color:lightblue;border-style:solid; \
-    float:left;height:100%;margin-right:4px;margin-bottom:94px;"></div>\n\n';
+    var text = '<div style = "height: 100%; width:10px;float:left; \
+    border-width:5px; border-color:cyan;border-style:solid; \
+    border-right-style:none;margin-right: 4px; min-height: 15px;"></div>\n\n';
     JPSLUtils.insert_text_at_beginning_of_current_cell(text);
     var currentcell = Jupyter.notebook.get_selected_cell();
     var cellindex=Jupyter.notebook.find_cell_index(currentcell);
@@ -335,10 +340,10 @@ function indicate_cell_contains_instructions(){
     Jupyter.notebook.get_selected_cell().execute();
 }
 
-function insert_left_chrome_hilight(){
-    var text = '<div style = "height: 100%; width: 10px; \
-    background-image: radial-gradient(lightyellow,steelblue); \
-    float: left; margin-right: 4px; min-height: 15px;"></div>'
+function insert_left_cyan_highlight(){
+    var text = '<div style = "height: 100%; width:10px;float:left; \
+    border-width:5px; border-color:cyan;border-style:solid; \
+    border-right-style:none;margin-right: 4px; min-height: 15px;"></div>\n\n'
     JPSLUtils.insert_text_at_beginning_of_current_cell(text);
     var currentcell = Jupyter.notebook.get_selected_cell();
     var cellindex=Jupyter.notebook.find_cell_index(currentcell);
@@ -348,9 +353,22 @@ function insert_left_chrome_hilight(){
     Jupyter.notebook.get_selected_cell().execute();
 }
 
+function insert_left_red_highlight(){
+    var text = '<div style = "height: 100%; width:10px;float:left; \
+    border-width:5px; border-color:red;border-style:solid; \
+    border-right-style:none;margin-right: 4px; min-height: 15px;"></div>\n\n'
+    JPSLUtils.insert_text_at_beginning_of_current_cell(text);
+    var currentcell = Jupyter.notebook.get_selected_cell();
+    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
+    Jupyter.notebook.to_code(cellindex);
+    Jupyter.notebook.to_markdown(cellindex);
+    Jupyter.notebook.focus_cell();
+    Jupyter.notebook.get_selected_cell().execute();
+}
 function insert_green_start_bar(){
-    var text = '<div style = "height:15px; width: 100%; \
-    background-image: linear-gradient(green,yellow);"></div>\n\n'
+    var text = '<div style = "width: 100%; height:10px;border-width:5px; \
+    border-color:green;border-style:solid;border-bottom-style:none; \
+    margin-bottom: 4px; min-width: 15px; background-color:yellow;"></div>\n\n'
     JPSLUtils.insert_text_at_beginning_of_current_cell(text);
     var currentcell = Jupyter.notebook.get_selected_cell();
     var cellindex=Jupyter.notebook.find_cell_index(currentcell);
@@ -361,8 +379,9 @@ function insert_green_start_bar(){
 }
 
 function insert_brown_stop_bar(){
-    var text = '\n<div style = "height: 15px; width: 100%; \
-    background-image: linear-gradient(yellow,brown);"></div>'
+    var text = '\n<div style = "width: 100%; height:10px;border-width:5px; \
+    border-color:sienna;border-style:solid;border-top-style:none; \
+    margin-top: 4px; min-width: 15px; background-color:yellow;"></div>'
     JPSLUtils.insert_newline_at_end_of_current_cell(text);
     var currentcell = Jupyter.notebook.get_selected_cell();
     var cellindex=Jupyter.notebook.find_cell_index(currentcell);

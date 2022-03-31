@@ -1,5 +1,5 @@
 # Tools for using a Jupyter notebook as a lab notebook.
-# These tools are specificly to aid instructors in setting
+# These tools are specifically to aid instructors in setting
 # up notebook templates with embedded instructions and tools
 # for students.
 # J. Gutow <jgutow@new.rr.com> January 2021

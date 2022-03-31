@@ -23,8 +23,8 @@ The menu is activated by the python command `import InstructorTools`.
     * This uses the `jupyter-datainputtable` package.
 * Add some highlight bars to a selected markdown cell. These can be removed by 
   deleting the associated`<div>`:
-  * A vertical chrome-blue bar at the left of the cell (only works reliably 
-    in the Chrome web browser).
+  * A vertical cyan bracket at the left of the cell.
+  * A vertical red bracket at the left of the cell.
   * A horizontal green start bar (fading down to yellow) at the beginning 
     of the cell. Useful for indicating the beginning of an instruction block.
   * A horizontal brown stop bar (fading down from yellow to brown) at the 
@@ -142,6 +142,12 @@ Simply replace `$ pip install jupyter-instructortools` with
 `$ pip install -e ../jupyter-instructortools` in the _Production_ instructions.
 
 ### Change Log
+  * 0.5.6.2
+    * Simplified styling of highlight bars to reduce chances of markdown 
+      cell sanitization making them not show up.
+    * Converted highlights to look more like brackets.
+    * Added option for a red left bracket highlight.
+    * require notebook version >= 6.4.10 for security fix.
   * 0.5.6.1 require notebook version >=6.4.7 for html styling and security 
     fixes.
   * 0.5.6

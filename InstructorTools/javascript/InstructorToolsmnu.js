@@ -322,7 +322,8 @@ function mark_hide_code_cells(){
     }
 }
 function insert_getnames_timestamp(){
-    var text = 'import JPSLUtils\nJPSLUtils.record_names_timestamp()';
+    var text = 'import JPSLUtils\nJPSLUtils.JPSL_Tools_Menu()\nJPSLUtils' \
+    '.record_names_timestamp()';
     JPSLUtils.insert_newline_at_end_of_current_cell(text);
     protect_selected_cells();
 }

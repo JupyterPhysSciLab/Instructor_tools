@@ -12,7 +12,8 @@ import os
 # Instructor tools menu
 from input_table import * #import the input table builder
 import JPSLUtils # import the Utilities
-# Locate JupyterPiDAQ package directory
+import JPSLMenus # import tools for hierarchical menus
+# Locate jupyter-instructortools package directory
 mydir = os.path.dirname(__file__)  # absolute path to directory containing this file.
 
 def instmenu_act():
@@ -25,7 +26,7 @@ def instmenu_act():
     tempscript += tempJSfile.read() + '</script>'
     tempJSfile.close()
     display(HTML(tempscript))
-    JPSLUtils.OTJS('createInstructorToolsMenu()')
+    display(JS('InstructorTools.createInstructorToolsMenu()'))
     warnstr = "This cell should only contain `import InstructorTools`"
     warnstr += " as it will be deleted when the tools"
     warnstr+= " are deactivated.\n\nWARNING: if you select the '!deactivate "
@@ -51,3 +52,8 @@ def instmenu_deact():
 
 JPSLUtils.JPSL_Tools_Menu()
 instmenu_act()
+
+del mydir
+del HTML
+del JS
+del os

@@ -1,152 +1,157 @@
-function createInstructorToolsMenu(){
+let InstructorTools = new Object();
+
+InstructorTools.createInstructorToolsMenu = function(){
     var donotinstall = Jupyter.notebook.metadata.noinstructortool;
     if (donotinstall){
         alert('Instructor Tools may not be installed in this notebook!');
-        deleteInstructorToolsMenuPerm();
+        InstructorTools.deleteInstructorToolsMenuPerm();
         return;
     }
-    if(!document.getElementById('InstructorToolsmnu')){
-        var newselect=document.createElement('select');
-        newselect.id = 'InstructorToolsmnu';
-        newselect.classList.add('form-control'); //class to match notebook formatting
-        newselect.classList.add('select-xs'); //class to match notebook formatting
-        newselect.setAttribute('style','color:blue;');
-        newselect.onchange=function(){
-            var lastvalue = this.value;
-            this.value='Instructor Tools';
-            if (lastvalue=='Insert Data Entry Table...'){
-                get_table_dim();
-            }
-            if (lastvalue=='Insert green start bar'){
-                insert_green_start_bar();
-            }
-            if (lastvalue=='Insert brown stop bar'){
-                insert_brown_stop_bar();
-            }
-            if (lastvalue=='Insert left cyan highlight'){
-                insert_left_cyan_highlight();
-            }
-            if (lastvalue=='Insert left red highlight'){
-                insert_left_red_highlight();
-            }
-            if (lastvalue=='Protect Selected Cells'){
-                protect_selected_cells();
-            }
-            if (lastvalue=='Deprotect Selected Cells'){
-                deprotect_selected_cells();
-            }
-            if (lastvalue=='Indicate Protected Cells'){
-                mark_protected_cells();
-            }
-            if (lastvalue=='Allow Hiding Selected Cells'){
-                set_hide_selected_cells_on_print();
-            }
-            if (lastvalue=='Disallow Hiding Selected Cells'){
-                unset_hide_selected_cells_on_print();
-            }
-            if (lastvalue=='Indicate Cells Allowed to Hide'){
-                mark_hide_on_print_cells();
-            }
-            if (lastvalue=='Allow Hiding Selected Code'){
-                set_hide_code_on_print();
-            }
-            if (lastvalue=='Disallow Hiding Selected Code'){
-                unset_hide_code_on_print();
-            }
-            if (lastvalue=='Indicate Code Allowed to Hide'){
-                mark_hide_code_on_print_cells();
-            }
-            if (lastvalue=='Test Hide on Print'){
-                JPSLUtils.hide_hide_on_print_cells();
-            }
-            if (lastvalue=='Undo Hide on Print'){
-                JPSLUtils.show_hide_on_print_cells();
-            }
-            if (lastvalue=='Set Hide Code in JPSL'){
-                set_hide_code();
-            }
-            if (lastvalue=='Unset Hide Code in JPSL'){
-                unset_hide_code();
-            }
-            if (lastvalue=='Indicate Hide Code in JPSL'){
-                mark_hide_code_cells();
-            }
-            if (lastvalue=='Insert get names and timestamp'){
-                insert_getnames_timestamp();
-            }
-            if (lastvalue=='Deactivate this menu'){
-                deleteInstructorToolsMenu();
-            }
-            if (lastvalue=='!deactivate permanently!'){
-                deleteInstructorToolsMenuPerm();
-            }
-            if (lastvalue=='Insert initialization boilerplate'){
-                insert_init_boilerplate();
-            }
-        }
-        var optiontxt = '<option title="Choose an option below"> \
-        Instructor Tools</option>';
-        optiontxt+='<option title="Insert cell below selected and create a \
-        data entry table.">Insert Data Entry Table...</option>';
-        optiontxt+='<option title="Add green start bar at top of markdown \
-        cell.">Insert green start bar</option>;'
-        optiontxt+='<option title="Add brown stop bar at bottom of markdown \
-        cell.">Insert brown stop bar</option>;'
-        optiontxt+='<option title="Add blue bracket to left side of \
-        markdown cell.">Insert left cyan highlight</option>';
-        optiontxt+='<option title="Add red bracket to left side of \
-        markdown cell.">Insert left red highlight</option>';
-        optiontxt+='<option disabled>----</option>';
-        optiontxt+='<option title="Prevent editing of selected cells."> \
-        Protect Selected Cells</option>';
-        optiontxt+='<option title="Allow editing of selected cells."> \
-        Deprotect Selected Cells</option>';
-        optiontxt+='<option title="Temporarily highlight protected cells in \
-        pink.">Indicate Protected Cells</option>';
-        optiontxt+='<option disabled>----</option>';
-        optiontxt+='<option title="Set selected cells to hide-on-print."> \
-        Allow Hiding Selected Cells</option>';
-        optiontxt+='<option title="Unset hide-on-print of selected cells."> \
-        Disallow Hiding Selected Cells</option>';
-        optiontxt+='<option title="Temporarily highlight hide-on-print cells \
-        in magenta">Indicate Cells Allowed to Hide</option>';
-        optiontxt+='<option title="Set selected to hide-code-on-print."> \
-        Allow Hiding Selected Code</option>';
-        optiontxt+='<option title="Unset selected to hide-code-on-print."> \
-        Disallow Hiding Selected Code</option>';
-        optiontxt+='<option title="Temporarily highlight hide-code-on-print \
-        cells in orange.">Indicate Code Allowed to Hide</option>';
-        optiontxt+='<option title="Hide cells set to hide-on-print or \
-        hide-code-on-print">Test Hide on Print</option>';
-        optiontxt+='<option title="Redisplay cells set to hide-on-print"> \
-        Undo Hide on Print</option>';
-        optiontxt+='<option disabled>----</option>';
-        optiontxt+='<option title="Set selected to hide-code in JPSL."> \
-        Set Hide Code in JPSL</option>';
-        optiontxt+='<option title="Unset selected to hide-code in JPSL."> \
-        Unset Hide Code in JPSL</option>';
-        optiontxt+='<option title="Temporarily highlight hide-code in JPSL \
-        cells in yellow.">Indicate Hide Code in JPSL</option>';
-        optiontxt+='<option disabled>----</option>';
-        optiontxt+='<option title="Insert get names and timestamp function \
-        into current cell. Also locks the cell to editing.">';
-        optiontxt+='Insert get names and timestamp</option>';
-        optiontxt+='<option title="Insert boilerplate about initialization in \
-        next cell">Insert initialization boilerplate</option>';
-        optiontxt+='<option disabled>----</option>';
-        optiontxt+='<option title="Remove/deactivate this menu. Use python \
-        command `import InstructorTools` to reactivate">';
-        optiontxt+='Deactivate this menu</option>';
-        optiontxt+='<option title="Remove menu permanently. Blocks reinstalling.">';
-        optiontxt+='!deactivate permanently!</option>';
-        newselect.innerHTML=optiontxt;
-        document.getElementById('maintoolbar-container').appendChild(newselect);
+    if(!document.getElementById('Instructor_Tools')){
+        var newDataTable = {'type':'action',
+                            'title': 'Insert Data Entry Table...',
+                            'data':"get_table_dim();"
+                            };
+        var grnstart = {'type':'snippet',
+                        'title':'Insert green start bar',
+                        'data':["<div style = \"width: 100%; height:10px;"+
+                        "border-width:5px; border-color:green;" +
+                        "border-style:solid;border-bottom-style:none;" +
+                        "margin-bottom: 4px; min-width: 15px;" +
+                        "background-color:yellow;\"></div>\n\n"]
+                        };
+        var brnstop = {'type':'snippet',
+                        'title':'Insert brown stop bar',
+                        'data':["\n<div style = \"width: 100%; height:10px;" +
+                        "border-width:5px;border-color:sienna;" +
+                        "border-style:solid;border-top-style:none;" +
+                        "margin-top: 4px; min-width: 15px;" +
+                        "background-color:yellow;\"></div>"]
+                        };
+        var cyanhighlight = {'type':'snippet',
+                        'title':'Insert left cyan highlight',
+                        'data':["<div style = \"height: 100%; width:10px;" +
+                        "float:left; border-width:5px; border-color:cyan;" +
+                        "border-style:solid; border-right-style:none;" +
+                        "margin-right: 4px; min-height: 15px;\"></div>\n\n"]
+                        };
+        var redhighlight = {'type':'snippet',
+                        'title':'Insert left red highlight',
+                        'data':["<div style = \"height: 100%; width:10px;" +
+                        "float:left; border-width:5px; border-color:red;" +
+                        "border-style:solid; border-right-style:none;" +
+                        "margin-right: 4px; min-height: 15px;\"></div>\n\n"]
+                        };
+        var protectcells = {'type':'action',
+                            'title': 'Protect Selected Cells',
+                            'data':"InstructorTools.protect_selected_cells();"
+                            };
+        var deprotectcells = {'type':'action',
+                            'title': 'Deprotect Selected Cells',
+                            'data':"InstructorTools.deprotect_selected_cells();"
+                            };
+        var indicateprotectcells = {'type':'action',
+                            'title': 'Indicate Protected Cells',
+                            'data':"InstructorTools.mark_protected_cells();"
+                            };
+        var allowhiding = {'type':'action',
+                            'title': 'Allow Hiding Selected Cells',
+                            'data':"InstructorTools.set_hide_selected_cells_on_print();"
+                            };
+        var unsethiding = {'type':'action',
+                            'title': 'Disallow Hiding Selected Cells',
+                            'data':"InstructorTools.unset_hide_selected_cells_on_print();"
+                            };
+        var indicateallowhiding = {'type':'action',
+                            'title': 'Indicate Cells Allowed to Hide',
+                            'data':"InstructorTools.mark_hide_on_print_cells();"
+                            };
+        var setallowhidecode = {'type':'action',
+                            'title': 'Allow Hiding Selected Code',
+                            'data':"InstructorTools.set_hide_code_on_print();"
+                            };
+        var unsetallowhidecode = {'type':'action',
+                            'title': 'Disallow Hiding Selected Code',
+                            'data':"InstructorTools.unset_hide_code_on_print();"
+                            };
+        var indicateallowhidecode = {'type':'action',
+                            'title': 'Indicate Code Allowed to Hide',
+                            'data':"InstructorTools.mark_hide_code_on_print_cells();"
+                            };
+        var tsthideonprint = {'type':'action',
+                            'title': 'Test Hide on Print',
+                            'data':"JPSLUtils.hide_hide_on_print_cells();"
+                            };
+        var showhideonprint = {'type':'action',
+                            'title': 'Undo Hide on Print',
+                            'data':"JPSLUtils.show_hide_on_print_cells();"
+                            };
+        var sethidecodeJPSL = {'type':'action',
+                            'title': 'Set Hide Code in JPSL',
+                            'data':"InstructorTools.set_hide_code();"
+                            };
+        var unsethidecodeJPSL = {'type':'action',
+                            'title': 'Unset Hide Code in JPSL',
+                            'data':"InstructorTools.unset_hide_code();"
+                            };
+        var indicatehidecodeJPSL = {'type':'action',
+                            'title': 'Indicate Hide Code in JPSL',
+                            'data':"InstructorTools.mark_hide_code_cells();"
+                            };
+        var timestampnames = {'type':'snippet',
+                            'title': 'Insert get names and timestamp',
+                            'data':["import JPSLUtils",
+                            "JPSLUtils.JPSL_Tools_Menu()",
+                            "JPSLUtils.record_names_timestamp()"]
+                            };
+        var deactivatemenu = {'type':'action',
+                            'title': 'Deactivate this menu',
+                            'data':"InstructorTools.deleteInstructorToolsMenu();"
+                            };
+        var deactivatemenuperm = {'type':'action',
+                            'title': '!deactivate permanently!',
+                            'data':"InstructorTools.deleteInstructorToolsMenuPerm();"
+                            };
+        var initboilerplate = {'type':'computedsnippet',
+                        'title':'Insert initialization boilerplate',
+                        'data':"InstructorTools.insert_init_boilerplate()"
+                        };
+        var protectsubmnu = {'type':'submenu',
+                    'title':'Cell Locking',
+                    'data':[protectcells, deprotectcells, indicateprotectcells]
+                    };
+        var mkdownsubmnu = {'type':'submenu',
+                    'title':'Markdown Cell Highlighting',
+                    'data':[cyanhighlight, redhighlight, grnstart, brnstop]
+                    };
+        var hideonprintsubmnu = {'type':'submenu',
+                    'title':'Hide on Print',
+                    'data':[allowhiding, unsethiding, indicateallowhiding,
+                    tsthideonprint, showhideonprint,
+                    setallowhidecode, unsetallowhidecode, indicateallowhidecode]
+                    };
+        var JPSLhidesubmnu = {'type':'submenu',
+                    'title':'Hide Code in JPSL',
+                    'data':[sethidecodeJPSL, unsethidecodeJPSL,
+                    indicatehidecodeJPSL]
+                    };
+        var mnuctl = {'type':'submenu',
+                    'title':'Menu Control',
+                    'data':[deactivatemenu, deactivatemenuperm]
+                    };
+        var menu = {'type':'menu',
+                    'title':'Instructor Tools',
+                    'data':[timestampnames, initboilerplate, newDataTable,
+                    mkdownsubmnu, hideonprintsubmnu, JPSLhidesubmnu,
+                    protectsubmnu, mnuctl]
+                    };
+        JPSLMenus.build(menu);
     }
 }
 
-function deleteInstructorToolsMenu(){
-    if(document.getElementById('InstructorToolsmnu')){
-        document.getElementById('InstructorToolsmnu').remove();
+InstructorTools.deleteInstructorToolsMenu = function(){
+    if(document.getElementById('Instructor_Tools')){
+        document.getElementById('Instructor_Tools').remove();
     }
     var celllist = Jupyter.notebook.get_cells();
     for (var i = 0;i<celllist.length;i++){
@@ -168,29 +173,34 @@ function deleteInstructorToolsMenu(){
         }
     }
 }
-function deleteInstructorToolsMenuPerm(){
-    if(document.getElementById('InstructorToolsmnu')){
-        document.getElementById('InstructorToolsmnu').remove();
+InstructorTools.deleteInstructorToolsMenuPerm = function(){
+    if(document.getElementById('Instructor_Tools')){
+        document.getElementById('Instructor_Tools').remove();
     }
     Jupyter.notebook.metadata.noinstructortool=true;
     var celllist = Jupyter.notebook.get_cells();
     for (var i = 0;i<celllist.length;i++){
+        var should_delete = false;
         if(celllist[i].get_text().indexOf('from InstructorTools import *') !== -1){
-            //delete the cell
-            var cellindex=Jupyter.notebook.find_cell_index(celllist[i]);
-            //alert('cellindex: '+cellindex)
-            Jupyter.notebook.delete_cell(cellindex);
+            should_delete = true
+        }
+        if (celllist[i].get_text().indexOf('import InstructorTools')!== -1){
+            should_delete = true
         }
         if(celllist[i].get_text().indexOf('instmenu_act()') !== -1){
+            should_delete = true
+        }
+        if (should_delete){
             //delete the cell
             var cellindex=Jupyter.notebook.find_cell_index(celllist[i]);
             //alert('cellindex: '+cellindex)
             Jupyter.notebook.delete_cell(cellindex);
         }
     }
+
 }
 
-function protect_selected_cells(){
+InstructorTools.protect_selected_cells = function(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
         celllist[i].metadata.editable=false;
@@ -198,7 +208,7 @@ function protect_selected_cells(){
         }
 }
 
-function deprotect_selected_cells(){
+InstructorTools.deprotect_selected_cells = function(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
         celllist[i].metadata.editable=true;
@@ -206,7 +216,7 @@ function deprotect_selected_cells(){
     }
 }
 
-function mark_protected_cells(){
+InstructorTools.mark_protected_cells = function(){
     var celllist = Jupyter.notebook.get_cells();
     for (var i = 0;i<celllist.length;i++){
         if (celllist[i].metadata.editable==false){
@@ -217,7 +227,7 @@ function mark_protected_cells(){
     }
 }
 
-function set_hide_selected_cells_on_print(){
+InstructorTools.set_hide_selected_cells_on_print = function(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
         if (!celllist[i].metadata.JPSL){
@@ -228,7 +238,7 @@ function set_hide_selected_cells_on_print(){
         }
 }
 
-function unset_hide_selected_cells_on_print(){
+InstructorTools.unset_hide_selected_cells_on_print = function(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
         if (!celllist[i].metadata.JPSL){
@@ -238,7 +248,7 @@ function unset_hide_selected_cells_on_print(){
     }
 }
 
-function mark_hide_on_print_cells(){
+InstructorTools.mark_hide_on_print_cells = function(){
     var celllist = Jupyter.notebook.get_cells();
     for (var i = 0;i<celllist.length;i++){
         if (celllist[i].metadata.JPSL){
@@ -252,7 +262,7 @@ function mark_hide_on_print_cells(){
     }
 }
 
-function set_hide_code_on_print(){
+InstructorTools.set_hide_code_on_print = function(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
         if (!celllist[i].metadata.JPSL){
@@ -263,7 +273,7 @@ function set_hide_code_on_print(){
         }
 }
 
-function unset_hide_code_on_print(){
+InstructorTools.unset_hide_code_on_print = function(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
         if (!celllist[i].metadata.JPSL){
@@ -273,7 +283,7 @@ function unset_hide_code_on_print(){
         }
 }
 
-function mark_hide_code_on_print_cells(){
+InstructorTools.mark_hide_code_on_print_cells = function(){
     var celllist = Jupyter.notebook.get_cells();
     for (var i = 0;i<celllist.length;i++){
         if (celllist[i].metadata.JPSL){
@@ -287,7 +297,7 @@ function mark_hide_code_on_print_cells(){
     }
 }
 
-function set_hide_code(){
+InstructorTools.set_hide_code = function(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
         if (!celllist[i].metadata.JPSL){
@@ -298,7 +308,7 @@ function set_hide_code(){
         }
 }
 
-function unset_hide_code(){
+InstructorTools.unset_hide_code = function(){
     var celllist = Jupyter.notebook.get_selected_cells();
     for (var i = 0;i<celllist.length;i++){
         if (!celllist[i].metadata.JPSL){
@@ -308,7 +318,7 @@ function unset_hide_code(){
         }
 }
 
-function mark_hide_code_cells(){
+InstructorTools.mark_hide_code_cells = function(){
     var celllist = Jupyter.notebook.get_cells();
     for (var i = 0;i<celllist.length;i++){
         if (celllist[i].metadata.JPSL){
@@ -321,77 +331,8 @@ function mark_hide_code_cells(){
         }
     }
 }
-function insert_getnames_timestamp(){
-    var text = 'import JPSLUtils\nJPSLUtils.JPSL_Tools_Menu()\nJPSLUtils.record_names_timestamp()';
-    JPSLUtils.insert_newline_at_end_of_current_cell(text);
-    protect_selected_cells();
-}
 
-function indicate_cell_contains_instructions(){
-    var text = '<div style = "height: 100%; width:10px;float:left; \
-    border-width:5px; border-color:cyan;border-style:solid; \
-    border-right-style:none;margin-right: 4px; min-height: 15px;"></div>\n\n';
-    JPSLUtils.insert_text_at_beginning_of_current_cell(text);
-    var currentcell = Jupyter.notebook.get_selected_cell();
-    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
-    Jupyter.notebook.to_code(cellindex);
-    Jupyter.notebook.to_markdown(cellindex);
-    Jupyter.notebook.focus_cell();
-    Jupyter.notebook.get_selected_cell().execute();
-}
-
-function insert_left_cyan_highlight(){
-    var text = '<div style = "height: 100%; width:10px;float:left; \
-    border-width:5px; border-color:cyan;border-style:solid; \
-    border-right-style:none;margin-right: 4px; min-height: 15px;"></div>\n\n'
-    JPSLUtils.insert_text_at_beginning_of_current_cell(text);
-    var currentcell = Jupyter.notebook.get_selected_cell();
-    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
-    Jupyter.notebook.to_code(cellindex);
-    Jupyter.notebook.to_markdown(cellindex);
-    Jupyter.notebook.focus_cell();
-    Jupyter.notebook.get_selected_cell().execute();
-}
-
-function insert_left_red_highlight(){
-    var text = '<div style = "height: 100%; width:10px;float:left; \
-    border-width:5px; border-color:red;border-style:solid; \
-    border-right-style:none;margin-right: 4px; min-height: 15px;"></div>\n\n'
-    JPSLUtils.insert_text_at_beginning_of_current_cell(text);
-    var currentcell = Jupyter.notebook.get_selected_cell();
-    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
-    Jupyter.notebook.to_code(cellindex);
-    Jupyter.notebook.to_markdown(cellindex);
-    Jupyter.notebook.focus_cell();
-    Jupyter.notebook.get_selected_cell().execute();
-}
-function insert_green_start_bar(){
-    var text = '<div style = "width: 100%; height:10px;border-width:5px; \
-    border-color:green;border-style:solid;border-bottom-style:none; \
-    margin-bottom: 4px; min-width: 15px; background-color:yellow;"></div>\n\n'
-    JPSLUtils.insert_text_at_beginning_of_current_cell(text);
-    var currentcell = Jupyter.notebook.get_selected_cell();
-    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
-    Jupyter.notebook.to_code(cellindex);
-    Jupyter.notebook.to_markdown(cellindex);
-    Jupyter.notebook.focus_cell();
-    Jupyter.notebook.get_selected_cell().execute();
-}
-
-function insert_brown_stop_bar(){
-    var text = '\n<div style = "width: 100%; height:10px;border-width:5px; \
-    border-color:sienna;border-style:solid;border-top-style:none; \
-    margin-top: 4px; min-width: 15px; background-color:yellow;"></div>'
-    JPSLUtils.insert_newline_at_end_of_current_cell(text);
-    var currentcell = Jupyter.notebook.get_selected_cell();
-    var cellindex=Jupyter.notebook.find_cell_index(currentcell);
-    Jupyter.notebook.to_code(cellindex);
-    Jupyter.notebook.to_markdown(cellindex);
-    Jupyter.notebook.focus_cell();
-    Jupyter.notebook.get_selected_cell().execute();
-}
-
-function insert_init_boilerplate(){
+InstructorTools.insert_init_boilerplate = function(){
     var mkdstr = "### You must initialize the software each time you use \
     this notebook.\n";
     mkdstr += " 1. First, check that the notebook is \"Trusted\" by looking \
@@ -415,11 +356,5 @@ function insert_init_boilerplate(){
     mkdstr += " reload data collected from the `.csv` files  written for each";
     mkdstr += " collection run. Ideally you would do this in a new notebook.";
 
-  Jupyter.notebook.focus_cell();
-  var currentcell = Jupyter.notebook.insert_cell_below();
-  currentcell.set_text(mkdstr);
-  var cellindex=Jupyter.notebook.find_cell_index(currentcell);
-  Jupyter.notebook.to_markdown(cellindex);
-  Jupyter.notebook.focus_cell();
-  Jupyter.notebook.get_selected_cell().execute();
+    return (mkdstr);
 }

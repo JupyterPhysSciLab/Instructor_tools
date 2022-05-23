@@ -142,6 +142,9 @@ Simply replace `$ pip install jupyter-instructortools` with
 `$ pip install -e ../jupyter-instructortools` in the _Production_ instructions.
 
 ### Change Log
+  * 0.6.0
+    * Converted to hierarchical menu that appears in the menu bar rather 
+      than the toolbar.
   * 0.5.6.2
     * Simplified styling of highlight bars to reduce chances of markdown 
       cell sanitization making them not show up.

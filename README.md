@@ -7,7 +7,7 @@
 This adds a menu to the Jupyter toolbar that automates some useful tasks an
 instructor might want to do while building a notebook template for an 
 assignment. This is part of the
-[Jupyter Physical Science Lab project](https://github.com/JupyterPhysSciLab).
+[Jupyter Physical Science Lab project](https://jupyterphysscilab.github.io/Documentation/).
 
 #### Current Menu Items:
 The menu is activated by the python command `import InstructorTools`.
@@ -25,10 +25,10 @@ The menu is activated by the python command `import InstructorTools`.
   deleting the associated`<div>`:
   * A vertical cyan bracket at the left of the cell.
   * A vertical red bracket at the left of the cell.
-  * A horizontal green start bar (fading down to yellow) at the beginning 
-    of the cell. Useful for indicating the beginning of an instruction block.
-  * A horizontal brown stop bar (fading down from yellow to brown) at the 
-    end of the cell. Useful for indicating the end of an instruction block.
+  * A horizontal green start bar (fading down to yellow). Useful for indicating
+    the beginning of an instruction block.
+  * A horizontal brown stop bar (fading down from yellow to brown). Useful 
+    for indicating the end of an instruction block.
 * Protect/unprotect selected cells. Protected cells cannot be 
   edited or deleted by the user. This is a good way to prevent instructions
   and example code from being damaged by students.
@@ -183,7 +183,8 @@ Simply replace `$ pip install jupyter-instructortools` with
   * 0.5.0 Initial release.
 ### Issues or comments
 
-[JupyterPhysSciLab/jupyter-instructortools](https://github.com/JupyterPhysSciLab/jupyter-instructortools)
+Issues or bugs should be reported via the project's [issues pages](https://github.com/JupyterPhysSciLab/jupyter-instructortools/issues).
+
 
 ##### [This software is distributed under the GNU V3 license](https://gnu.org/licenses)
 This program is free software: you can redistribute it and/or modify

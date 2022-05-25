@@ -3,7 +3,8 @@ let InstructorTools = new Object();
 InstructorTools.createInstructorToolsMenu = function(){
     var donotinstall = Jupyter.notebook.metadata.noinstructortool;
     if (donotinstall){
-        alert('Instructor Tools may not be installed in this notebook!');
+        alert('Installation of Instructor Tools is forbidden in this '+
+        'notebook!');
         InstructorTools.deleteInstructorToolsMenuPerm();
         return;
     }

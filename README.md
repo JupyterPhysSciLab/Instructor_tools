@@ -4,7 +4,7 @@
 [Change log](#change-log) | [Issues or Comments](#issues-or-comments) | 
 [License](#this-software-is-distributed-under-the-gnu-v3-licensehttpsgnuorglicenses)
 ### Introduction
-This adds a menu to the Jupyter toolbar that automates some useful tasks an
+This adds a menu to Jupyter that automates some useful tasks an
 instructor might want to do while building a notebook template for an 
 assignment. This is part of the
 [Jupyter Physical Science Lab project](https://jupyterphysscilab.github.io/Documentation/).

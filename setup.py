@@ -21,7 +21,7 @@ setuptools.setup(
         'jupyter>=1.0.0',
         'notebook>=6.4.10',
         'jupyter-datainputtable>=0.7.5',
-        'JPSLUtils',
+        'JPSLUtils>=0.5.9',
         'JPSLMenus'
         #'pandas>=0.22.0'
     ],

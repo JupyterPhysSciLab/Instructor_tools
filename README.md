@@ -142,6 +142,8 @@ Simply replace ` pip install jupyter-instructortools` with
 ` pip install -e ../jupyter-instructortools` in the _Production_ instructions.
 
 ### Change Log
+  * 0.6.1
+    * Updates to requirements to utilize upstream bug fixes.
   * 0.6.0
     * Converted to hierarchical menu that appears in the menu bar rather 
       than the toolbar.

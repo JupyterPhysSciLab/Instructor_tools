@@ -2,7 +2,7 @@
 # These tools are specifically to aid instructors in setting
 # up notebook templates with embedded instructions and tools
 # for students.
-# J. Gutow <jgutow@new.rr.com>
+# J. Gutow <gutow@uwosh.edu>
 # license GPL V3 or greater.
 
 from IPython.display import display, HTML

@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
     name="jupyter-instructortools",
-    version="0.6.0",
+    version="0.6.1",
     description="Useful tools for instructors creating Jupyter notebook templates.",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -19,9 +19,9 @@ setuptools.setup(
     install_requires=[
         # 'python>=3.6',
         'jupyter>=1.0.0',
-        'notebook>=6.4.10',
+        'notebook>=6.4.12', # security fixes
         'jupyter-datainputtable>=0.7.5',
-        'JPSLUtils>=0.5.9',
+        'JPSLUtils>=0.7.2',
         'JPSLMenus'
         #'pandas>=0.22.0'
     ],

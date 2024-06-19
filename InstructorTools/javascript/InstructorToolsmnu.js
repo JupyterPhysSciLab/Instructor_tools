@@ -132,7 +132,7 @@ InstructorTools.createInstructorToolsMenu = function(){
                     setallowhidecode, unsetallowhidecode, indicateallowhidecode]
                     };
         var JPSLhidesubmnu = {'type':'submenu',
-                    'title':'Hide Code in JPSL',
+                    'title':'"Hide Code in JPSL"',
                     'data':[sethidecodeJPSL, unsethidecodeJPSL,
                     indicatehidecodeJPSL]
                     };

@@ -10,7 +10,6 @@ import { //INotebookModel,
     INotebookTools,
     INotebookTracker
     } from '@jupyterlab/notebook';
-//import { ICellModel } from '@jupyterlab/cells';
 
 /**
  * Initialization data for the JPSLInstructorTools extension.
@@ -36,6 +35,15 @@ const plugin: JupyterFrontEndPlugin<void> = {
       notebookTools: INotebookTools
       ) => {
     const { commands } = app;
+
+    // Is the menu activated flag?
+    let menuactive:boolean = false;
+
+    // Is this tool allowed in current notebook flag. Updated each time a notebook is focused.
+    // When true the menu will be hidden and the show menu command in the pallet will create an alert to notify
+    // the user.
+    let thistoolforbidden:boolean = false;
+
     /**
     * Build the commands to add to the menu
      */
@@ -610,13 +618,12 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(activateinstructormenu.id, {
       label: activateinstructormenu.label,
       caption: activateinstructormenu.caption,
-      execute: (args: any) => {
-        console.log(
-          `Activate menu has been called ${args['origin']}.`
-        );
-        window.alert(
-          `Activate menu has been called ${args['origin']}.`
-        );
+      execute: () => {
+        menuactive = true;
+        // Check the forbidden state of the front most notebook.
+        _updateforbiddenstate(null,null);
+        commands.execute('Show:JPSLInstructorTools:main-menu');
+        console.log('Activate menu has been called.');
       },
     });
 
@@ -629,14 +636,87 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(deactivateinstructormenu.id, {
       label: deactivateinstructormenu.label,
       caption: deactivateinstructormenu.caption,
-      execute: (args: any) => {
-        console.log(
-          `Deactivate menu has been called ${args['origin']}.`
-        );
-        window.alert(
-          `Deactivate menu has been called ${args['origin']}.`
-        );
+      execute: () => {
+        menuactive = false;
+        commands.execute('Hide:JPSLInstructorTools:main-menu');
+        console.log('deactivate menu has been called.');
       },
+    });
+
+    // disable the menu and hide title.
+    const hidemenu:CmdandInfo = {
+        id: 'Hide:JPSLInstructorTools:main-menu',
+        label: 'Hide Menu',
+        caption: 'Hide Menu'
+    };
+    commands.addCommand (hidemenu.id, {
+        label: hidemenu.label,
+        caption: hidemenu.caption,
+        execute: () => {
+            menu.hide();
+            const mainmenuDOM = document.getElementById('jp-MainMenu');
+            if (mainmenuDOM) {
+                //window.alert(mainmenuDOM.toString());
+                const mainmenulabels = mainmenuDOM.querySelectorAll('.lm-MenuBar-item');
+                for (const item of mainmenulabels){
+                    const itemlabel = item.querySelector('.lm-MenuBar-itemLabel');
+                    if (itemlabel){
+                        if (itemlabel.innerHTML == 'JPSL Instructor Tools') {
+                            item.setAttribute('hidden','true');
+                        }
+                    }
+                }
+            } else {
+               window.alert('Did not find the Main menu DOM element!');
+            }
+        },
+    });
+
+    palette.addItem({
+        command: hidemenu.id,
+        category: 'JPSL Instructor Tools',
+        args: { origin: 'from the palette' }
+    });
+
+    // Enable the menu and show the title.
+    const showmenu:CmdandInfo = {
+        id: 'Show:JPSLInstructorTools:main-menu',
+        label: 'Show Menu',
+        caption: 'Show Menu'
+    };
+    commands.addCommand (showmenu.id, {
+        label: showmenu.label,
+        caption: showmenu.caption,
+        execute: () => {
+            if (!menuactive) {
+                window.alert('You need to activate the menu before it will appear.');
+                return;
+                }
+            if (thistoolforbidden){
+                window.alert('You are not allowed to use JPSL Instructor Tools with this notebook.');
+                return;
+            } else {
+                menu.show();
+                const mainmenuDOM = document.getElementById('jp-MainMenu');
+                if (mainmenuDOM) {
+                    const mainmenulabels = mainmenuDOM.querySelectorAll('.lm-MenuBar-item');
+                    for (const item of mainmenulabels){
+                        const itemlabel = item.querySelector('.lm-MenuBar-itemLabel');
+                        if (itemlabel){
+                            if (itemlabel.innerHTML == 'JPSL Instructor Tools') {
+                                item.removeAttribute('hidden');
+                            }
+                        }
+                    }
+                }
+            }
+        },
+    });
+
+    palette.addItem({
+        command: showmenu.id,
+        category: 'JPSL Instructor Tools',
+        args: { origin: 'from the palette' }
     });
 
     // Disallow Instructor Tools Menu with this Notebook
@@ -839,73 +919,52 @@ const plugin: JupyterFrontEndPlugin<void> = {
         newBrowserTab:"true"}
     });
     MainMenu.addMenu(menu);
+    // Hide the popup so that the title is just a placeholder until activated
+    menu.hide();
 
-    // disable the menu and hide title.
-    const hidemenu:CmdandInfo = {
-        id: 'Hide:JPSLInstructorTools:main-menu',
-        label: 'Hide Menu',
-        caption: 'Hide Menu'
-    };
-    commands.addCommand (hidemenu.id, {
-        label: hidemenu.label,
-        caption: hidemenu.caption,
-        execute: () => {
-            menu.hide();
-            const mainmenuDOM = document.getElementById('jp-MainMenu');
-            if (mainmenuDOM) {
-                //window.alert(mainmenuDOM.toString());
-                const mainmenulabels = mainmenuDOM.querySelectorAll('.lm-MenuBar-item');
-                for (const item of mainmenulabels){
-                    const itemlabel = item.querySelector('.lm-MenuBar-itemLabel');
-                    if (itemlabel){
-                        if (itemlabel.innerHTML == 'JPSL Instructor Tools') {
-                            item.setAttribute('hidden','true');
-                        }
+    async function _updateforbiddenstate(sender: any|null, Args?:any|null) {
+        console.log(`Update forbidden states has been called.`);
+        if (!menuactive) {
+            // Make sure it is hidden
+            commands.execute('Hide:JPSLInstructorTools:main-menu');
+            return;
+        }
+        if (notebookTracker.currentWidget){
+            await notebookTracker.currentWidget.revealed;
+            if (notebookTracker.currentWidget.model){
+                const notebookmeta = notebookTracker.currentWidget.model.getMetadata("JPSL");
+                if (notebookmeta){
+                    if (notebookmeta.noinstructortools){
+                        commands.execute('Hide:JPSLInstructorTools:main-menu');
+                        thistoolforbidden = true;
+                        return;
                     }
                 }
-            } else {
-               window.alert('Did not find the Main menu DOM element!');
             }
-        },
-    });
-
-    palette.addItem({
-        command: hidemenu.id,
-        category: 'JPSL Instructor Tools',
-        args: { origin: 'from the palette' }
-    });
-
-    // Enable the menu and show the title.
-    const showmenu:CmdandInfo = {
-        id: 'Show:JPSLInstructorTools:main-menu',
-        label: 'Show Menu',
-        caption: 'Show Menu'
-    };
-    commands.addCommand (showmenu.id, {
-        label: showmenu.label,
-        caption: showmenu.caption,
-        execute: () => {
-            menu.show();
-            const mainmenuDOM = document.getElementById('jp-MainMenu');
-            if (mainmenuDOM) {
-                const mainmenulabels = mainmenuDOM.querySelectorAll('.lm-MenuBar-item');
-                for (const item of mainmenulabels){
-                    const itemlabel = item.querySelector('.lm-MenuBar-itemLabel');
-                    if (itemlabel){
-                        if (itemlabel.innerHTML == 'JPSL Instructor Tools') {
-                            item.removeAttribute('hidden');
+            if (notebookTracker.currentWidget.content.widgets){
+                for (const cell of notebookTracker.currentWidget.content.widgets){
+                    let metadata = cell.model.getMetadata('JPSL');
+                    if (metadata){
+                        if (metadata.noinstructortools){
+                            commands.execute('Hide:JPSLInstructorTools:main-menu');
+                            thistoolforbidden = true;
+                            return;
                         }
                     }
                 }
             }
-        },
-    });
+            thistoolforbidden = false;
+            commands.execute('Show:JPSLInstructorTools:main-menu');
+        } else {
+            // No notebook so should not show menu
+            commands.execute('Hide:JPSLInstructorTools:main-menu');
+            }
+    }
 
-    palette.addItem({
-        command: showmenu.id,
-        category: 'JPSL Instructor Tools',
-        args: { origin: 'from the palette' }
-    });
+    // subscribe to the notebookTracker changed signals
+    notebookTracker.widgetAdded.connect(_updateforbiddenstate);
+    notebookTracker.currentChanged.connect(_updateforbiddenstate);
+
     console.log('JupyterLab extension JPSLInstructorTools is activated!');
     console.log('The app is:', app);
     console.log('The shell is:', app.shell);

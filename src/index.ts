@@ -10,6 +10,7 @@ import { //INotebookModel,
     INotebookTools,
     INotebookTracker
     } from '@jupyterlab/notebook';
+import { showDialog, Dialog } from '@jupyterlab/apputils';
 
 /**
  * Initialization data for the JPSLInstructorTools extension.
@@ -75,13 +76,27 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(grnstart.id, {
       label: grnstart.label,
       caption: grnstart.caption,
-      execute: (args: any) => {
-        console.log(
-          `Insert green start bar has been called ${args['origin']}.`
-        );
-        window.alert(
-          `Insert green start bar has been called ${args['origin']}.`
-        );
+      execute: () => {
+          const htmlstr = "<div style = \"width: 100%; height:10px;"+
+                        "border-width:5px; border-color:green;" +
+                        "border-style:solid;border-bottom-style:none;" +
+                        "margin-bottom: 4px; min-width: 15px;" +
+                        "background-color:yellow;\"></div>\n\n";
+          if (notebookTools.selectedCells){
+              // We will only act on the first selected cell
+              const cellEditor = notebookTools.selectedCells[0].editor;
+              if (cellEditor) {
+                  const tempPos = {column:0, line:0};
+                  //cellEditor.setCursorPosition(tempPos);
+                  cellEditor.setSelection({start:tempPos, end: tempPos});
+                  if (cellEditor.replaceSelection){
+                    cellEditor.replaceSelection(htmlstr);
+                  }
+              }
+          } else {
+              window.alert('Please select a cell in a notebook.');
+          }
+          console.log('Insert green start bar has been called.');
       },
     });
 
@@ -94,13 +109,31 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(brnstop.id, {
       label: brnstop.label,
       caption: brnstop.caption,
-      execute: (args: any) => {
-        console.log(
-          `Insert Insert brown stop bar has been called ${args['origin']}.`
-        );
-        window.alert(
-          `Insert Insert brown stop bar has been called ${args['origin']}.`
-        );
+      execute: () => {
+          const htmlstr = "\n<div style = \"width: 100%; height:10px;" +
+                        "border-width:5px;border-color:sienna;" +
+                        "border-style:solid;border-top-style:none;" +
+                        "margin-top: 4px; min-width: 15px;" +
+                        "background-color:yellow;\"></div>";
+          if (notebookTools.selectedCells){
+              // We will only act on the first selected cell
+              const cellEditor = notebookTools.selectedCells[0].editor;
+              if (cellEditor) {
+                  const endline = cellEditor.lineCount - 1;
+                  let tempPos = {column:0, line:endline};
+                  const endlinecont = cellEditor.getLine(endline);
+                  if (endlinecont){
+                      tempPos.column = endlinecont.length;
+                      }
+                  cellEditor.setSelection({start:tempPos, end: tempPos});
+                  if (cellEditor.replaceSelection){
+                    cellEditor.replaceSelection(htmlstr);
+                  }
+              }
+          } else {
+              window.alert('Please select a cell in a notebook.');
+          }
+          console.log('Insert brown stop bar has been called.');
       },
     });
 
@@ -113,13 +146,26 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(cyanhighlight.id, {
       label: cyanhighlight.label,
       caption: cyanhighlight.caption,
-      execute: (args: any) => {
-        console.log(
-          `Insert left cyan highlight has been called ${args['origin']}.`
-        );
-        window.alert(
-          `Insert left cyan highlight has been called ${args['origin']}.`
-        );
+      execute: () => {
+          const htmlstr = "<div style = \"height: 100%; width:10px;" +
+                        "float:left; border-width:5px; border-color:cyan;" +
+                        "border-style:solid; border-right-style:none;" +
+                        "margin-right: 4px; min-height: 15px;\"></div>\n\n";
+          if (notebookTools.selectedCells){
+              // We will only act on the first selected cell
+              const cellEditor = notebookTools.selectedCells[0].editor;
+              if (cellEditor) {
+                  const tempPos = {column:0, line:0};
+                  //cellEditor.setCursorPosition(tempPos);
+                  cellEditor.setSelection({start:tempPos, end: tempPos});
+                  if (cellEditor.replaceSelection){
+                    cellEditor.replaceSelection(htmlstr);
+                  }
+              }
+          } else {
+              window.alert('Please select a cell in a notebook.');
+          }
+          console.log('Insert left cyan highlight has been called.');
       },
     });
 
@@ -132,13 +178,26 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(redhighlight.id, {
       label: redhighlight.label,
       caption: redhighlight.caption,
-      execute: (args: any) => {
-        console.log(
-          `Insert left red highlight has been called ${args['origin']}.`
-        );
-        window.alert(
-          `Insert left red highlight has been called ${args['origin']}.`
-        );
+      execute: () => {
+          const htmlstr ="<div style = \"height: 100%; width:10px;" +
+                        "float:left; border-width:5px; border-color:red;" +
+                        "border-style:solid; border-right-style:none;" +
+                        "margin-right: 4px; min-height: 15px;\"></div>\n\n";
+          if (notebookTools.selectedCells){
+              // We will only act on the first selected cell
+              const cellEditor = notebookTools.selectedCells[0].editor;
+              if (cellEditor) {
+                  const tempPos = {column:0, line:0};
+                  //cellEditor.setCursorPosition(tempPos);
+                  cellEditor.setSelection({start:tempPos, end: tempPos});
+                  if (cellEditor.replaceSelection){
+                    cellEditor.replaceSelection(htmlstr);
+                  }
+              }
+          } else {
+              window.alert('Please select a cell in a notebook.');
+          }
+          console.log('Insert left red highlight has been called.');
       },
     });
 
@@ -273,7 +332,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(unsethidecellbeforeprint.id, {
       label: unsethidecellbeforeprint.label,
       caption: unsethidecellbeforeprint.caption,
-      execute: () => {
+      execute:() => {
         if (notebookTracker.currentWidget){
             if (notebookTools.selectedCells){
                 for (const cell of notebookTools.selectedCells){
@@ -289,11 +348,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
             } else {
                 window.alert("Unset of hide before printing flag failed. Did you select cells?");
             }
-            } else {
+        } else {
                 let alertstr = 'Unset of hide before printing flag failed. Try the Property Inspector advanced mode and';
                  alertstr += 'enter "JPSL":{"hide_on_print": false}.';
                 window.alert(alertstr);
-            }
+        }
         console.log('Unset of hide before printing flag has been called.');
       },
     });
@@ -618,10 +677,15 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(activateinstructormenu.id, {
       label: activateinstructormenu.label,
       caption: activateinstructormenu.caption,
-      execute: () => {
+      execute: async () => {
         menuactive = true;
         // Check the forbidden state of the front most notebook.
-        _updateforbiddenstate(null,null);
+        await _updateforbiddenstate(null,null);
+        if (thistoolforbidden){
+            window.alert('Instructor Tools menu has been activated, but it '+
+                        'cannot be used with the front window. It will appear '+
+                        'when a notebook it can be used with is in front.');
+        }
         commands.execute('Show:JPSLInstructorTools:main-menu');
         console.log('Activate menu has been called.');
       },
@@ -728,31 +792,40 @@ const plugin: JupyterFrontEndPlugin<void> = {
     commands.addCommand(disallowinstructormenu.id, {
       label: disallowinstructormenu.label,
       caption: disallowinstructormenu.caption,
-      execute: () => {
-        if (notebookTracker.currentWidget){
-            let notebook = notebookTracker.currentWidget.model;
-            if (notebook) {
-            let metadata = notebook.getMetadata('JPSL');
-            if (!metadata) {
-                notebook.setMetadata('JPSL',{"noinstructortools": true});
-            } else {
-                metadata.noinstructortools = true;
-                notebook.setMetadata('JPSL', metadata);
-            }
-            if (notebookTracker.currentWidget.content.widgets){
-                for (const cell of notebookTracker.currentWidget.content.widgets){
-                    let metadata = cell.model.getMetadata('JPSL');
-                    if (metadata){
-                        metadata.noinstructortools = true;
-                        cell.model.setMetadata("JPSL",metadata);
+      execute: async () => {
+        // Reminder that this a permanent change and provide chance to cancel.
+        const dialogmsg = 'Are you sure? This action in irreversible. Instructor Tools ' +
+                                    'will no longer work with this notebook.';
+        const buttons = [Dialog.cancelButton(), Dialog.okButton()];
+        const result = await showDialog({body: dialogmsg,
+                                        buttons: buttons,
+                                        hasClose: false});
+        if (result.button.accept){
+            if (notebookTracker.currentWidget){
+                let notebook = notebookTracker.currentWidget.model;
+                if (notebook) {
+                    let metadata = notebook.getMetadata('JPSL');
+                    if (!metadata) {
+                        notebook.setMetadata('JPSL',{"noinstructortools": true});
                     } else {
-                        cell.model.setMetadata("JPSL",{"noinstructortools": true});
+                        metadata.noinstructortools = true;
+                        notebook.setMetadata('JPSL', metadata);
                     }
+                    if (notebookTracker.currentWidget.content.widgets){
+                        for (const cell of notebookTracker.currentWidget.content.widgets){
+                            let metadata = cell.model.getMetadata('JPSL');
+                            if (metadata){
+                                metadata.noinstructortools = true;
+                                cell.model.setMetadata("JPSL",metadata);
+                            } else {
+                                cell.model.setMetadata("JPSL",{"noinstructortools": true});
+                            }
+                        }
+                    }
+                } else {
+                    window.alert("Set of disallow instructor tools flag failed. Is a notebook selected?");
                 }
             }
-        } else {
-            window.alert("Set of disallow instructor tools flag failed. Is a notebook selected?");
-        }
         }
         console.log('Set disallow instructor tools flag has been called.');
       },
@@ -934,7 +1007,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
             if (notebookTracker.currentWidget.model){
                 const notebookmeta = notebookTracker.currentWidget.model.getMetadata("JPSL");
                 if (notebookmeta){
-                    if (notebookmeta.noinstructortools){
+                    if (notebookmeta.noinstructortools != null){
                         commands.execute('Hide:JPSLInstructorTools:main-menu');
                         thistoolforbidden = true;
                         return;
@@ -945,7 +1018,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                 for (const cell of notebookTracker.currentWidget.content.widgets){
                     let metadata = cell.model.getMetadata('JPSL');
                     if (metadata){
-                        if (metadata.noinstructortools){
+                        if (metadata.noinstructortools != null){
                             commands.execute('Hide:JPSLInstructorTools:main-menu');
                             thistoolforbidden = true;
                             return;

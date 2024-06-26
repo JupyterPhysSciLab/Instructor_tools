@@ -81,7 +81,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                         "border-width:5px; border-color:green;" +
                         "border-style:solid;border-bottom-style:none;" +
                         "margin-bottom: 4px; min-width: 15px;" +
-                        "background-color:yellow;\"></div>\n\n";
+                        "background-color:beige;\"></div>\n\n";
           if (notebookTools.selectedCells){
               // We will only act on the first selected cell
               const cellEditor = notebookTools.selectedCells[0].editor;
@@ -110,11 +110,11 @@ const plugin: JupyterFrontEndPlugin<void> = {
       label: brnstop.label,
       caption: brnstop.caption,
       execute: () => {
-          const htmlstr = "\n<div style = \"width: 100%; height:10px;" +
+          const htmlstr = "\n\n<div style = \"width: 100%; height:10px;" +
                         "border-width:5px;border-color:sienna;" +
                         "border-style:solid;border-top-style:none;" +
                         "margin-top: 4px; min-width: 15px;" +
-                        "background-color:yellow;\"></div>";
+                        "background-color:beige;\"></div>";
           if (notebookTools.selectedCells){
               // We will only act on the first selected cell
               const cellEditor = notebookTools.selectedCells[0].editor;
@@ -310,7 +310,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                         metadata.hide_on_print = true;
                         cell.model.setMetadata('JPSL', metadata);
                     }
-                    cell.node.setAttribute("style","background-color:magenta;");
+                    cell.node.setAttribute("style","background-color:beige;");
                 }
             } else {
                 window.alert("Set of hide before printing flag failed. Did you select cells?");
@@ -375,7 +375,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                     let metadata = cell.model.getMetadata('JPSL');
                     if (metadata){
                         if (metadata.hide_on_print){
-                            cell.node.setAttribute("style","background-color:magenta;");
+                            cell.node.setAttribute("style","background-color:beige;");
                             found +=1;
                         }
                     }
@@ -588,7 +588,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                         metadata.hide_code = true;
                         cell.model.setMetadata('JPSL', metadata);
                     }
-                    cell.node.setAttribute("style","background-color:yellow;");
+                    cell.node.setAttribute("style","background-color:beige;");
                 }
             } else {
                 window.alert("Set of hide code in JPSL flag failed. Did you select cells?");
@@ -653,7 +653,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                     let metadata = cell.model.getMetadata('JPSL');
                     if (metadata){
                         if (metadata.hide_code){
-                            cell.node.setAttribute("style","background-color:yellow;");
+                            cell.node.setAttribute("style","background-color:beige;");
                             found +=1;
                         }
                     }

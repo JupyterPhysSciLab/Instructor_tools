@@ -10,5 +10,7 @@
   installation used by both the instructor and students. By default, the menu 
   is deactivated and will not activate if a student has a notebook set to 
   disallow use of instructor tools.
+* Added boilerplate instructions for creating a pdf of notebook with 
+  collapsed headings.
 
 <!-- <END NEW CHANGELOG ENTRY> -->

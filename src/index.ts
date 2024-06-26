@@ -273,7 +273,8 @@ const plugin: JupyterFrontEndPlugin<void> = {
             if (notebookTracker.currentWidget.content.widgets){
                 let found = 0;
                 for (const cell of notebookTracker.currentWidget.content.widgets){
-                    if (!cell.model.getMetadata('editable') && !cell.model.getMetadata('deletable')){
+                    if (!cell.model.getMetadata('editable') && !cell.model.getMetadata('deletable')
+                        && cell.model.getMetadata('editable')!=null){
                         cell.node.setAttribute("style","background-color:pink;");
                         found +=1;
                     }
@@ -305,9 +306,9 @@ const plugin: JupyterFrontEndPlugin<void> = {
                     let metadata = cell.model.getMetadata('JPSL')
                     if (!metadata) {
                         cell.model.setMetadata('JPSL',{"hide_on_print": true});
-                        cell.model.setMetadata('JPSL', metadata);
                     } else {
                         metadata.hide_on_print = true;
+                        cell.model.setMetadata('JPSL', metadata);
                     }
                     cell.node.setAttribute("style","background-color:magenta;");
                 }
@@ -508,7 +509,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                     let metadata = cell.model.getMetadata('JPSL');
                     if (metadata){
                         if (metadata.hide_on_print){
-                            //cell.node.setAttribute("style","display:none;");
+                            cell.node.setAttribute("style","display:none;");
                             cell.hide();
                             found +=1;
                         }
@@ -546,7 +547,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                     let metadata = cell.model.getMetadata('JPSL');
                     if (metadata){
                         if (metadata.hide_on_print){
-                            //cell.node.removeAttribute("hidden");
+                            cell.node.removeAttribute("style");
                             cell.show();
                             found +=1;
                         }
@@ -665,6 +666,98 @@ const plugin: JupyterFrontEndPlugin<void> = {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
         console.log(`Indicate hide code in JPSL cells has been called.`);
+      },
+    });
+    // Insert Instructions BoilerPlate
+    const insertInstructionBoilerPlate:CmdandInfo = {
+        id: 'insertInstructionBoilerPlate:JPSLInstructorTools:main-menu',
+        label: 'Insert instructions Boilerplate',
+        caption: 'Insert Instruction Boilerplate into selected cell.'
+    };
+    commands.addCommand(insertInstructionBoilerPlate.id, {
+      label: insertInstructionBoilerPlate.label,
+      caption: insertInstructionBoilerPlate.caption,
+      execute: () => {
+          const mkdstr = "### You must initialize the software each time you use this notebook.\n"+
+                         " 1. First, check that the notebook is \"Trusted\" by looking near"+
+                         " the right of the Jupyter toolbars. If the notebook is not trusted"+
+                         " you need to click on the \"not trusted\" button and trust the"+
+                         " notebook. **You should only trust notebooks that come from a"+
+                         " *trusted source*, such as the class website.**\n"+
+                         " 2. The cell immediately below contains code that loads the"+
+                         " software modules necessary for this notebook to run. **You"+
+                         " must run this cell each time you open the notebook or later cells"+
+                         " may not work.**\n 3. If you are doing calculations that depend upon"+
+                         " using variables passed from calculations done the previous"+
+                         " time the notebook was opened, you will need to run those"+
+                         " previous cells to redefine the variables. You can run each cell"+
+                         " individually in order, or use the 'Restart the kernel and run all"+
+                         " cells' button (usually represented by double fast-forward arrows).\n";
+          if (notebookTools.selectedCells){
+              // We will only act on the first selected cell
+              const cellEditor = notebookTools.selectedCells[0].editor;
+              if (cellEditor) {
+                  const tempPos = {column:0, line:0};
+                  //cellEditor.setCursorPosition(tempPos);
+                  cellEditor.setSelection({start:tempPos, end: tempPos});
+                  if (cellEditor.replaceSelection){
+                    cellEditor.replaceSelection(mkdstr);
+                  }
+              }
+          } else {
+              window.alert('Please select a cell in a notebook.');
+          }
+          console.log('Insert Instructions Boilerplate has been called.');
+      },
+    });
+    // Insert make PDF Instructions
+    const insertmakePDFInstructions:CmdandInfo = {
+        id: 'insertmakePDFInstructions:JPSLInstructorTools:main-menu',
+        label: 'Insert make PDF instructions',
+        caption: 'Insert make PDF instructions into selected cell.'
+    };
+    commands.addCommand(insertmakePDFInstructions.id, {
+      label: insertmakePDFInstructions.label,
+      caption: insertmakePDFInstructions.caption,
+      execute: () => {
+          const mkdstr = "### Steps to create a PDF file to turn in.\n"+
+                         "To convert this notebook to a lab report to turn in you need to"+
+                         " hide the majority of the instruction and informational cells"+
+                         " before making a .pdf document.\n"+
+                         "1. Your instructor has already chosen the cells they want hidden."+
+                         " To hide them select \"Hide Cells\" from the JPSL Tools menu.\n"+
+                         "2. To make a pdf you must use the Browser's print capabilities. In"+
+                         " most user interfaces this option is hidden in the little collapsed"+
+                         " menu at the upper right of the browser window. On a macintosh it"+
+                         " can be found in the file menu. Select \"Print\".\n"+
+                         "\t* Set the destination to \"Save to PDF\".\n"+
+                         "\t* Set the format to \"Landscape\" to accommodate the cell width.\n"+
+                         "\t* Adjust the scale so that the whole width appears in the preview"+
+                         "   (usually 60% - 80%).\n"+
+                         "\t* Make sure to save the file in a"+
+                         "   location you can find (your \"Desktop\" or maybe \"Documents\" directory).\n"+
+                         "\t* Do Not use the options in the Jupyter \"File\" menu.\n"+
+                         "3. It is a good idea to open the created document to make sure it is OK.\n"+
+                         "4. When everything is OK, save this notebook one more time using"+
+                         " \"Save Notebook\" in the Jupyter \"File\" menu and then close"+
+                         " it using the \"Close and Shutdown Notebook\" option in the Jupyter \"File\""+
+                         " menu.\n"+
+                         "5. Turn in: the **pdf** and **ipynb** version of this notebook plus any **datafiles**."
+          if (notebookTools.selectedCells){
+              // We will only act on the first selected cell
+              const cellEditor = notebookTools.selectedCells[0].editor;
+              if (cellEditor) {
+                  const tempPos = {column:0, line:0};
+                  //cellEditor.setCursorPosition(tempPos);
+                  cellEditor.setSelection({start:tempPos, end: tempPos});
+                  if (cellEditor.replaceSelection){
+                    cellEditor.replaceSelection(mkdstr);
+                  }
+              }
+          } else {
+              window.alert('Please select a cell in a notebook.');
+          }
+          console.log('Insert make PDF instructions has been called.');
       },
     });
 
@@ -959,10 +1052,13 @@ const plugin: JupyterFrontEndPlugin<void> = {
     menu.title.label = 'JPSL Instructor Tools';
     menu.addClass('jp-JPSLInstructor-tools-menu'); // This only gets added to the popup when it is active.
     menu.addItem({
+        command: insertInstructionBoilerPlate.id,
+        args: {label:insertInstructionBoilerPlate.label, caption: insertInstructionBoilerPlate.caption}
+        });
+    menu.addItem({
          command: NewDataTable.id,
          args: {label: NewDataTable.label, caption: NewDataTable.caption}
      });
-
     menu.addItem({
          type: "submenu",
          args: {label: protectsubmenu.title.label},
@@ -983,6 +1079,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
          submenu: JPSLhidecodesubmenu,
          args: {label: JPSLhidecodesubmenu.title.label}
      });
+    menu.addItem({
+        command: insertmakePDFInstructions.id,
+        args: {label:insertmakePDFInstructions.label, caption: insertmakePDFInstructions.caption}
+    });
 
     // open documentation url
     menu.addItem({
@@ -1031,7 +1131,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         } else {
             // No notebook so should not show menu
             commands.execute('Hide:JPSLInstructorTools:main-menu');
-            }
+        }
     }
 
     // subscribe to the notebookTracker changed signals

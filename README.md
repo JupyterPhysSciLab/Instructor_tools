@@ -9,7 +9,8 @@
 This adds a menu to Jupyter that automates some useful tasks an
 instructor might want to do while building a notebook template for an 
 assignment. This is part of the
-[Jupyter Physical Science Lab project](https://jupyterphysscilab.github.io/Documentation/).
+[Jupyter Physical Science Lab project](https://jupyterphysscilab.github.io/Documentation/),
+but can be used independently of the rest of the project.
 
 ## Usage:
 The menu that provides access to most of the tools is activated using the 

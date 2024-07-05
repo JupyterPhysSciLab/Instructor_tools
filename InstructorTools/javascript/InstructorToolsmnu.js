@@ -234,8 +234,7 @@ InstructorTools.set_hide_selected_cells_on_print = function(){
         if (!celllist[i].metadata.JPSL){
         celllist[i].metadata.JPSL={}}
         celllist[i].metadata.JPSL.hide_on_print=true;
-        celllist[i].element.children()[0].setAttribute("style",
-        "background-color:magenta;");
+        celllist[i].element.children()[0].setAttribute("style", "background-color:magenta;");
         }
 }
 

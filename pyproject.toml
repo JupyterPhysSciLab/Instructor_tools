@@ -3,7 +3,7 @@ requires = ["hatchling>=1.5.0", "jupyterlab>=4.0.0,<5", "hatch-nodejs-version>=0
 build-backend = "hatchling.build"
 
 [project]
-name = "JPSLInstructorTools"
+name = "jupyter-instructortools"
 readme = "README.md"
 license = { file = "LICENSE" }
 requires-python = ">=3.8"
@@ -23,6 +23,8 @@ classifiers = [
     "Programming Language :: Python :: 3.12",
 ]
 dependencies = [
+    "jupyter-datainputtable >=0.8.0",
+    "jupyterlab >=4.0.0, <5"
 ]
 dynamic = ["version", "description", "authors", "urls", "keywords"]
 
@@ -33,24 +35,24 @@ source = "nodejs"
 fields = ["description", "authors", "urls"]
 
 [tool.hatch.build.targets.sdist]
-artifacts = ["JPSLInstructorTools/labextension"]
+artifacts = ["jupyter-instructortools/labextension"]
 exclude = [".github", "binder"]
 
 [tool.hatch.build.targets.wheel.shared-data]
-"JPSLInstructorTools/labextension" = "share/jupyter/labextensions/JPSLInstructorTools"
-"install.json" = "share/jupyter/labextensions/JPSLInstructorTools/install.json"
+"jupyter-instructortools/labextension" = "share/jupyter/labextensions/jupyter-instructortools"
+"install.json" = "share/jupyter/labextensions/jupyter-instructortools/install.json"
 
 [tool.hatch.build.hooks.version]
-path = "JPSLInstructorTools/_version.py"
+path = "jupyter-instructortools/_version.py"
 
 [tool.hatch.build.hooks.jupyter-builder]
 dependencies = ["hatch-jupyter-builder>=0.5"]
 build-function = "hatch_jupyter_builder.npm_builder"
 ensured-targets = [
-    "JPSLInstructorTools/labextension/static/style.js",
-    "JPSLInstructorTools/labextension/package.json",
+    "jupyter-instructortools/labextension/static/style.js",
+    "jupyter-instructortools/labextension/package.json",
 ]
-skip-if-exists = ["JPSLInstructorTools/labextension/static/style.js"]
+skip-if-exists = ["jupyter-instructortools/labextension/static/style.js"]
 
 [tool.hatch.build.hooks.jupyter-builder.build-kwargs]
 build_cmd = "build:prod"
@@ -60,7 +62,7 @@ npm = ["jlpm"]
 build_cmd = "install:extension"
 npm = ["jlpm"]
 source_dir = "src"
-build_dir = "JPSLInstructorTools/labextension"
+build_dir = "jupyter-instructortools/labextension"
 
 [tool.jupyter-releaser.options]
 version_cmd = "hatch version"

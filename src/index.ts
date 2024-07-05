@@ -48,12 +48,14 @@ const plugin: JupyterFrontEndPlugin<void> = {
     /**
     * Build the commands to add to the menu
      */
-    // New Data Table
+    // New Data Table is defined in jupyter-datainputtable package.
+
     const NewDataTable:CmdandInfo = {
-        id: 'NewDataTable:JPSLInstructorTools:main-menu',
+        id: 'NewDataTable:jupyter-inputtable',
         label: 'Insert Data Entry Table...',
         caption:'Insert a new Data Entry Table'
     };
+/*
     commands.addCommand(NewDataTable.id, {
       label: NewDataTable.label,
       caption: NewDataTable.caption,
@@ -66,7 +68,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         );
       },
     });
-
+*/
     // Insert Green Start Bar
     const grnstart:CmdandInfo = {
         id: 'grnstart:JPSLInstructorTools:main-menu',

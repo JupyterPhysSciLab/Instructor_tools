@@ -31,7 +31,7 @@ def _jupyter_labextension_paths():
         "dest": "intructortools"
     }]
 
-# Locate jupyter-instructortools package directory
+# Locate jupyter_instructortools package directory
 mydir = os.path.dirname(__file__)  # absolute path to directory containing this file.
 
 def instmenu_act():

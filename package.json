@@ -1,6 +1,6 @@
 {
     "name": "JPSLInstructorTools",
-    "version": "0.7.0",
+    "version": "0.7.0-rc0",
     "description": "Tool to assist instructors in creating notebook templates for student Jupyter worksheets.",
     "keywords": [
         "jupyter",

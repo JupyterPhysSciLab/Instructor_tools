@@ -1,7 +1,7 @@
 # Changelog
 
 <!-- <START NEW CHANGELOG ENTRY> -->
-## 0.7.0 (June XX, 2024)
+## 0.7.0 (June 5, 2024)
 * Converted to a Jupyter Lab 4+ and notebook 7+ compatible plugin.
 * Updated dependencies to be Jupyter Lab 4+ and notebook 7+ compatible.
 * Switched to Jupyter compatible BSD license.

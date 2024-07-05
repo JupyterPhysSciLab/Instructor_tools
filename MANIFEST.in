@@ -1,1 +1,1 @@
-recursive-include InstructorTools *.js
+recursive-include jupyter-instructortools *.js

@@ -18,7 +18,7 @@ The menu that provides access to most of the tools is activated using the
 Lab command palette (figure 1). By default it is inactive at the beginning 
 of a session.
 
-![Instructor Tool commands in Jupyter Lab command palette](JPSL_Instructor_Tools_palette_cmds.png)
+![Instructor Tool commands in Jupyter Lab command palette](https://raw.githubusercontent.com/JupyterPhysSciLab/jupyter-instructortools/master/JPSL_Instructor_Tools_palette_cmds.png)
 
 __Figure 1:__ Instructor Tool commands available in the Jupyter lab 
 command 

@@ -12,6 +12,8 @@ import { //INotebookModel,
     } from '@jupyterlab/notebook';
 import { showDialog, Dialog } from '@jupyterlab/apputils';
 
+const debug = true; // set to false to turn off console debugging messages.
+
 /**
  * Initialization data for the JPSLInstructorTools extension.
  */
@@ -55,20 +57,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
         label: 'Insert Data Entry Table...',
         caption:'Insert a new Data Entry Table'
     };
-/*
-    commands.addCommand(NewDataTable.id, {
-      label: NewDataTable.label,
-      caption: NewDataTable.caption,
-      execute: (args: any) => {
-        console.log(
-          `New Data Table has been called ${args['origin']}.`
-        );
-        window.alert(
-          `New Data Table has been called ${args['origin']}.`
-        );
-      },
-    });
-*/
+
     // Insert Green Start Bar
     const grnstart:CmdandInfo = {
         id: 'grnstart:JPSLInstructorTools:main-menu',
@@ -98,7 +87,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           } else {
               window.alert('Please select a cell in a notebook.');
           }
-          console.log('Insert green start bar has been called.');
+          if (debug){console.log('Insert green start bar has been called.');}
       },
     });
 
@@ -135,7 +124,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           } else {
               window.alert('Please select a cell in a notebook.');
           }
-          console.log('Insert brown stop bar has been called.');
+          if (debug){console.log('Insert brown stop bar has been called.');}
       },
     });
 
@@ -167,7 +156,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           } else {
               window.alert('Please select a cell in a notebook.');
           }
-          console.log('Insert left cyan highlight has been called.');
+          if(debug){console.log('Insert left cyan highlight has been called.');}
       },
     });
 
@@ -199,7 +188,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           } else {
               window.alert('Please select a cell in a notebook.');
           }
-          console.log('Insert left red highlight has been called.');
+          if (debug) {console.log('Insert left red highlight has been called.');}
       },
     });
 
@@ -228,7 +217,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                  alertstr += "'editable'parameter to false. Then add the 'deletable' parameter set to false.";
                 window.alert(alertstr);
             }
-        console.log(`Protect selected cells has been called.`);
+        if (debug) {console.log(`Protect selected cells has been called.`);}
       },
     });
 
@@ -257,7 +246,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                  alertstr += "'editable' parameter to true. Then set the 'deletable' parameter to true.";
                 window.alert(alertstr);
             }
-        console.log(`Deprotect selected cells has been called.`);
+        if (debug) {console.log(`Deprotect selected cells has been called.`);}
       },
     });
 
@@ -288,7 +277,38 @@ const plugin: JupyterFrontEndPlugin<void> = {
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        console.log(`Indicate protected cells has been called.`);
+        if (debug) {console.log(`Indicate protected cells has been called.`);}
+      },
+    });
+
+    // Undo indicate protected cells.
+    const undoindicateprotectcells:CmdandInfo = {
+        id: 'undoindicateprotectcells:JPSLInstructorTools:main-menu',
+        label: 'Undo indicate protected cells',
+        caption: 'Undo indicate protected cells'
+    };
+    commands.addCommand(undoindicateprotectcells.id, {
+      label: undoindicateprotectcells.label,
+      caption: undoindicateprotectcells.caption,
+      execute: () => {
+        if (notebookTracker.currentWidget){
+            if (notebookTracker.currentWidget.content.widgets){
+                let found = 0;
+                for (const cell of notebookTracker.currentWidget.content.widgets){
+                    if (!cell.model.getMetadata('editable') && !cell.model.getMetadata('deletable')
+                        && cell.model.getMetadata('editable')!=null){
+                        cell.node.removeAttribute("style");
+                        found +=1;
+                    }
+                }
+            if (found == 0) {window.alert("No protected cells found.");}
+            } else {
+                window.alert("No notebook cells found.");
+            }
+            } else {
+                window.alert("You do not appear to have a notebook in front or selected. Try again.");
+            }
+        if (debug) {console.log(`Undo indicate protected cells has been called.`);}
       },
     });
 
@@ -322,7 +342,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                  alertstr += 'enter "JPSL":{"hide_on_print": true}.';
                 window.alert(alertstr);
             }
-        console.log('Set of hide before printing flag has been called.');
+        if (debug) {console.log('Set of hide before printing flag has been called.');}
       },
     });
 
@@ -356,7 +376,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                  alertstr += 'enter "JPSL":{"hide_on_print": false}.';
                 window.alert(alertstr);
         }
-        console.log('Unset of hide before printing flag has been called.');
+        if (debug) {console.log('Unset of hide before printing flag has been called.');}
       },
     });
 
@@ -389,7 +409,40 @@ const plugin: JupyterFrontEndPlugin<void> = {
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        console.log(`Indicate hide before print cells has been called.`);
+        if (debug) {console.log(`Indicate hide before print cells has been called.`);}
+      },
+    });
+
+    // Undo indicate hide before print cells
+    const undoindicatehidecellbeforeprint:CmdandInfo = {
+        id: 'undoindicatehidecellbeforeprint:JPSLInstructorTools:main-menu',
+        label: 'Undo indicate hide before print cells',
+        caption: 'Undo indicates hide before print cells.'
+    };
+    commands.addCommand(undoindicatehidecellbeforeprint.id, {
+      label: undoindicatehidecellbeforeprint.label,
+      caption: undoindicatehidecellbeforeprint.caption,
+      execute: () => {
+        if (notebookTracker.currentWidget){
+            if (notebookTracker.currentWidget.content.widgets){
+                let found = 0;
+                for (const cell of notebookTracker.currentWidget.content.widgets){
+                    let metadata = cell.model.getMetadata('JPSL');
+                    if (metadata){
+                        if (metadata.hide_on_print){
+                            cell.node.removeAttribute("style");
+                            found +=1;
+                        }
+                    }
+                }
+            if (found == 0) {window.alert("No hide before print cells found.");}
+            } else {
+                window.alert("No notebook cells found.");
+            }
+            } else {
+                window.alert("You do not appear to have a notebook in front or selected. Try again.");
+            }
+        if (debug) {console.log(`Undo indicate hide before print cells has been called.`);}
       },
     });
 
@@ -423,7 +476,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                  alertstr += ' mode and enter "JPSL":{"hide_code_on_print": true}.';
                 window.alert(alertstr);
             }
-        console.log('Set of hide code before printing flag has been called.');
+        if (debug) {console.log('Set of hide code before printing flag has been called.');}
       },
     });
 
@@ -457,7 +510,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                  alertstr += ' mode andenter "JPSL":{"hide_code_on_print": false}.';
                 window.alert(alertstr);
             }
-        console.log('Unset of hide code before printing flag has been called.');
+        if (debug) {console.log('Unset of hide code before printing flag has been called.');}
       },
     });
 
@@ -490,7 +543,40 @@ const plugin: JupyterFrontEndPlugin<void> = {
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        console.log(`Indicate hide code before print cells has been called.`);
+        if (debug) {console.log(`Indicate hide code before print cells has been called.`);}
+      },
+    });
+
+    // Undo indicate hide code before printing cells
+    const undoindicatehidecodebeforeprint:CmdandInfo = {
+        id: 'undoindicatehidecodebeforeprint:JPSLInstructorTools:main-menu',
+        label: 'Undo indicate hide code before print cells',
+        caption: 'Undo indicate hide code before print cells.'
+    };
+    commands.addCommand(undoindicatehidecodebeforeprint.id, {
+      label: undoindicatehidecodebeforeprint.label,
+      caption: undoindicatehidecodebeforeprint.caption,
+      execute: () => {
+        if (notebookTracker.currentWidget){
+            if (notebookTracker.currentWidget.content.widgets){
+                let found = 0;
+                for (const cell of notebookTracker.currentWidget.content.widgets){
+                    let metadata = cell.model.getMetadata('JPSL');
+                    if (metadata){
+                        if (metadata.hide_code_on_print){
+                            cell.node.removeAttribute("style");
+                            found +=1;
+                        }
+                    }
+                }
+            if (found == 0) {window.alert("No hide code before print cells found.");}
+            } else {
+                window.alert("No notebook cells found.");
+            }
+            } else {
+                window.alert("You do not appear to have a notebook in front or selected. Try again.");
+            }
+        if (debug) {console.log(`Undo indicate hide code before print cells has been called.`);}
       },
     });
 
@@ -528,7 +614,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        console.log(`Test hide before print cells has been called.`);
+        if (debug) {console.log(`Test hide before print cells has been called.`);}
       },
     });
 
@@ -566,7 +652,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        console.log(`Undo test hide before print cells has been called.`);
+        if (debug) {console.log(`Undo test hide before print cells has been called.`);}
       },
     });
 
@@ -600,7 +686,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                  alertstr += ' mode and enter "JPSL":{"hide_code": true}.';
                 window.alert(alertstr);
             }
-        console.log('Set of hide code in JPSL flag has been called.');
+        if (debug) {console.log('Set of hide code in JPSL flag has been called.');}
       },
     });
 
@@ -634,7 +720,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                  alertstr += ' mode and enter "JPSL":{"hide_code": false}.';
                 window.alert(alertstr);
             }
-        console.log('Unset of hide code in JPSL flag has been called.');
+        if (debug) {console.log('Unset of hide code in JPSL flag has been called.');}
       },
     });
 
@@ -667,9 +753,61 @@ const plugin: JupyterFrontEndPlugin<void> = {
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        console.log(`Indicate hide code in JPSL cells has been called.`);
+        if (debug) {console.log(`Indicate hide code in JPSL cells has been called.`);}
       },
     });
+
+    // Undo indicate hide code in JPSL
+    const undoindicatehidecodeJPSL:CmdandInfo = {
+        id: 'undoindicatehidecodeJPSL:JPSLInstructorTools:main-menu',
+        label: 'Undo indicate hide code in JPSL cells',
+        caption: 'Undo indicate hide code in JPSL cells.'
+    };
+    commands.addCommand(undoindicatehidecodeJPSL.id, {
+      label: undoindicatehidecodeJPSL.label,
+      caption: undoindicatehidecodeJPSL.caption,
+      execute: () => {
+        if (notebookTracker.currentWidget){
+            if (notebookTracker.currentWidget.content.widgets){
+                let found = 0;
+                for (const cell of notebookTracker.currentWidget.content.widgets){
+                    let metadata = cell.model.getMetadata('JPSL');
+                    if (metadata){
+                        if (metadata.hide_code){
+                            cell.node.removeAttribute("style");
+                            found +=1;
+                        }
+                    }
+                }
+            if (found == 0) {window.alert("No hide code in JPSL cells found.");}
+            } else {
+                window.alert("No notebook cells found.");
+            }
+            } else {
+                window.alert("You do not appear to have a notebook in front or selected. Try again.");
+            }
+        if (debug) {console.log(`Undo indicate hide code in JPSL cells has been called.`);}
+      },
+    });
+
+    // Undo indicate hide code in JPSL
+    const undoallcellindications:CmdandInfo = {
+        id: 'undoallcellindications:JPSLInstructorTools:main-menu',
+        label: 'Undo all cell indications',
+        caption: 'Undo all cell indications.'
+    };
+    commands.addCommand(undoallcellindications.id, {
+      label: undoallcellindications.label,
+      caption: undoallcellindications.caption,
+      execute: () => {
+        commands.execute('undoindicateprotectcells:JPSLInstructorTools:main-menu');
+        commands.execute('undoindicatehidecodeJPSL:JPSLInstructorTools:main-menu');
+        commands.execute('undoindicatehidecellbeforeprint:JPSLInstructorTools:main-menu');
+        commands.execute('undoindicatehidecodebeforeprint:JPSLInstructorTools:main-menu');
+        if (debug) {console.log(`Undo all cell indications has been called.`);}
+      },
+    });
+
     // Insert Instructions BoilerPlate
     const insertInstructionBoilerPlate:CmdandInfo = {
         id: 'insertInstructionBoilerPlate:JPSLInstructorTools:main-menu',
@@ -709,7 +847,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           } else {
               window.alert('Please select a cell in a notebook.');
           }
-          console.log('Insert Instructions Boilerplate has been called.');
+          if (debug) {console.log('Insert Instructions Boilerplate has been called.');}
       },
     });
     // Insert make PDF Instructions
@@ -759,7 +897,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
           } else {
               window.alert('Please select a cell in a notebook.');
           }
-          console.log('Insert make PDF instructions has been called.');
+          if (debug) {console.log('Insert make PDF instructions has been called.');}
       },
     });
 
@@ -782,7 +920,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                         'when a notebook it can be used with is in front.');
         }
         commands.execute('Show:JPSLInstructorTools:main-menu');
-        console.log('Activate menu has been called.');
+        if (debug) {console.log('Activate menu has been called.');}
       },
     });
 
@@ -798,7 +936,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
       execute: () => {
         menuactive = false;
         commands.execute('Hide:JPSLInstructorTools:main-menu');
-        console.log('deactivate menu has been called.');
+        if (debug) {console.log('deactivate menu has been called.');}
       },
     });
 
@@ -815,7 +953,6 @@ const plugin: JupyterFrontEndPlugin<void> = {
             menu.hide();
             const mainmenuDOM = document.getElementById('jp-MainMenu');
             if (mainmenuDOM) {
-                //window.alert(mainmenuDOM.toString());
                 const mainmenulabels = mainmenuDOM.querySelectorAll('.lm-MenuBar-item');
                 for (const item of mainmenulabels){
                     const itemlabel = item.querySelector('.lm-MenuBar-itemLabel');
@@ -826,7 +963,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                     }
                 }
             } else {
-               window.alert('Did not find the Main menu DOM element!');
+               if (debug) {console.log('Did not find the Main menu DOM element, while trying to hide JPSL Instructor Tools menu!');}
             }
         },
     });
@@ -922,7 +1059,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                 }
             }
         }
-        console.log('Set disallow instructor tools flag has been called.');
+        if (debug) {console.log('Set disallow instructor tools flag has been called.');}
       },
     });
 
@@ -971,6 +1108,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
          command: indicateprotectcells.id,
          args: {label: indicateprotectcells.label, caption: indicateprotectcells.caption}
          });
+     protectsubmenu.addItem({
+         command: undoindicateprotectcells.id,
+         args: {label: undoindicateprotectcells.label, caption: undoindicateprotectcells.caption}
+         });
 
      // Markdown cell highlighting menu
      const mkdownsubmenu = new MenuSvg({commands});
@@ -1007,6 +1148,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
          command: indicatehidecellbeforeprint.id,
          args: {label: indicatehidecellbeforeprint.label, caption: indicatehidecellbeforeprint.caption}
      });
+      hidebeforeprintsubmenu.addItem({
+         command: undoindicatehidecellbeforeprint.id,
+         args: {label: undoindicatehidecellbeforeprint.label, caption: undoindicatehidecellbeforeprint.caption}
+     });
     hidebeforeprintsubmenu.addItem({
          type:"separator"});
     hidebeforeprintsubmenu.addItem({
@@ -1020,6 +1165,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
     hidebeforeprintsubmenu.addItem({
          command: indicatehidecodebeforeprint.id,
          args: {label: indicatehidecodebeforeprint.label, caption: indicatehidecodebeforeprint.caption}
+    });
+    hidebeforeprintsubmenu.addItem({
+         command: undoindicatehidecodebeforeprint.id,
+         args: {label: undoindicatehidecodebeforeprint.label, caption: undoindicatehidecodebeforeprint.caption}
     });
     hidebeforeprintsubmenu.addItem({
         type:"separator"});
@@ -1046,6 +1195,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
      JPSLhidecodesubmenu.addItem({
          command: indicatehidecodeJPSL.id,
          args: {label: indicatehidecodeJPSL.label, caption: indicatehidecodeJPSL.caption}
+     });
+     JPSLhidecodesubmenu.addItem({
+         command: undoindicatehidecodeJPSL.id,
+         args: {label: undoindicatehidecodeJPSL.label, caption: undoindicatehidecodeJPSL.caption}
      });
 
 
@@ -1082,6 +1235,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
          args: {label: JPSLhidecodesubmenu.title.label}
      });
     menu.addItem({
+        command: undoallcellindications.id,
+        args: {label:undoallcellindications.label, caption: undoallcellindications.caption}
+    });
+    menu.addItem({
         command: insertmakePDFInstructions.id,
         args: {label:insertmakePDFInstructions.label, caption: insertmakePDFInstructions.caption}
     });
@@ -1098,7 +1255,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
     menu.hide();
 
     async function _updateforbiddenstate(sender: any|null, Args?:any|null) {
-        console.log(`Update forbidden states has been called.`);
+        if (debug) {console.log(`Update forbidden states has been called.`);}
         if (!menuactive) {
             // Make sure it is hidden
             commands.execute('Hide:JPSLInstructorTools:main-menu');
@@ -1141,10 +1298,10 @@ const plugin: JupyterFrontEndPlugin<void> = {
     notebookTracker.currentChanged.connect(_updateforbiddenstate);
 
     console.log('JupyterLab extension JPSLInstructorTools is activated!');
-    console.log('The app is:', app);
-    console.log('The shell is:', app.shell);
-    console.log('notebookTracker', notebookTracker);
-    console.log('notebookTools', notebookTools);
+    if (debug) {console.log('The app is:', app);}
+    if (debug) {console.log('The shell is:', app.shell);}
+    if (debug) {console.log('notebookTracker', notebookTracker);}
+    if (debug) {console.log('notebookTools', notebookTools);}
   }
 };
 

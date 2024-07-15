@@ -1,7 +1,7 @@
 # jupyter-instructortools
 [Introduction](#introduction) |
 [Usage](#usage) | 
-[Current Menu Items](#current-menu-items) | 
+[Current Menu Items](#available-menu-items) | 
 [Typical workflow](#typical-workflow) | [Install](#install) | 
 [Issues or Comments](#issues-or-comments) | 
 [License](#this-software-is-distributed-under-the-gnu-v3-licensehttpsgnuorglicenses)

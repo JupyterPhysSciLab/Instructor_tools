@@ -109,6 +109,7 @@ the students will have access to (see [Install](#install)).
 ## Requirements
 * JupyterLab >= 4.0.0
 * notebook >= 7.0.0
+* jupyter-datainputtable >=0.8.0
 
 ## Install
 

@@ -52,19 +52,16 @@ it is very difficult to reverse.
   and example code from being damaged by students.
 * Set/un-set selected cells as allowed to be hidden. This can be used to mark
   cells to hide before producing a pdf to turn in.
-* Set/un-set selected cells to hide code before printing.
-* Set/un-set selected cells to hide code in JPSL.
-* Temporarily highlight each kind of "hidden/hide" cell.
+* Set/un-set selected cells to collapse code before printing.
+* Set/un-set selected cells to collapse code in JPSL.
+* Temporarily highlight each kind of cell marked for hiding or code collapse.
+* Temporarily completely hide (not collapse) code (all or just selected cells).
 * Insert boilerplate instructions on initializing a
   notebook into a selected markdown cell.
 * Insert boilerplate instructions on preparing a pdf version of the notebook 
   to turn in with instructor selected parts hidden.
 
 <!-- Not part of menu or not working in current version.
-* Delete instructor tools from a notebook before making the
-  worksheet available.
-* Delete instructor tools and prevent reinstallation in the
-  notebook.
 * Insert code to automatically timestamp the notebook and 
   collect names from students. The code is inserted at the end of the 
   currently selected cell. The cell becomes protected

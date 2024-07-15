@@ -1,6 +1,13 @@
 # Changelog
 
-<!-- <START NEW CHANGELOG ENTRY> -->
+## 0.8.0 (July 15, 2024)
+* **DEPRECATION**: Switched hide code to default Jupyter Lab collapse code 
+  behavior.
+* Added commands and menu items to undo the highlighted indication of 
+  protected cells and those flagged for code-collapse or hiding on print.
+* Added commands to allow temporary complete hiding (not collapse) of code 
+  but not the output.
+* Console debug messages off by default.
 ## 0.7.0 (June 5, 2024)
 * Converted to a Jupyter Lab 4+ and notebook 7+ compatible plugin.
 * Updated dependencies to be Jupyter Lab 4+ and notebook 7+ compatible.
@@ -16,7 +23,6 @@
 * Added boilerplate instructions for creating a pdf of notebook with 
   collapsed headings.
 
-<!-- <END NEW CHANGELOG ENTRY> -->
  ## 0.6.1
 * Updates to requirements to utilize upstream bug fixes.
  ## 0.6.0

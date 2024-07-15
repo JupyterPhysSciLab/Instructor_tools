@@ -12,7 +12,7 @@ import { //INotebookModel,
     } from '@jupyterlab/notebook';
 import { showDialog, Dialog } from '@jupyterlab/apputils';
 
-const debug = true; // set to false to turn off console debugging messages.
+const debug = false; // set to false to turn off console debugging messages.
 
 /**
  * Initialization data for the JPSLInstructorTools extension.
@@ -446,83 +446,83 @@ const plugin: JupyterFrontEndPlugin<void> = {
       },
     });
 
-    // Mark cells to hide code before printing
-    const sethidecodebeforeprint:CmdandInfo = {
-        id: 'sethidecodebeforeprint:JPSLInstructorTools:main-menu',
-        label: 'Allow hiding of code',
-        caption: 'Set hide code before print flag for selected cells.'
+    // Mark cells to collapse code before printing
+    const setcollapsecodebeforeprint:CmdandInfo = {
+        id: 'setcollapsecodebeforeprint:JPSLInstructorTools:main-menu',
+        label: 'Allow collapsing of code',
+        caption: 'Set collapse code before print flag for selected cells.'
     };
-    commands.addCommand(sethidecodebeforeprint.id, {
-      label: sethidecodebeforeprint.label,
-      caption: sethidecodebeforeprint.caption,
+    commands.addCommand(setcollapsecodebeforeprint.id, {
+      label: setcollapsecodebeforeprint.label,
+      caption: setcollapsecodebeforeprint.caption,
       execute: () => {
         if (notebookTracker.currentWidget){
             if (notebookTools.selectedCells){
                 for (const cell of notebookTools.selectedCells){
                     let metadata = cell.model.getMetadata('JPSL')
                     if (!metadata) {
-                        cell.model.setMetadata('JPSL',{"hide_code_on_print": true});
+                        cell.model.setMetadata('JPSL',{"collapse_code_on_print": true});
                     } else {
-                        metadata.hide_code_on_print = true;
+                        metadata.collapse_code_on_print = true;
                         cell.model.setMetadata('JPSL', metadata);
                     }
                     cell.node.setAttribute("style","background-color:orange;");
                 }
             } else {
-                window.alert("Set of hide code before printing flag failed. Did you select cells?");
+                window.alert("Set of collapse code before printing flag failed. Did you select cells?");
             }
             } else {
-                let alertstr = 'Set of hide code before printing flag failed. Try the Property Inspector advanced';
-                 alertstr += ' mode and enter "JPSL":{"hide_code_on_print": true}.';
+                let alertstr = 'Set of collapse code before printing flag failed. Try the Property Inspector advanced';
+                 alertstr += ' mode and enter "JPSL":{"collapse_code_on_print": true}.';
                 window.alert(alertstr);
             }
-        if (debug) {console.log('Set of hide code before printing flag has been called.');}
+        if (debug) {console.log('Set of collapse code before printing flag has been called.');}
       },
     });
 
-    // Unset cells to hide code before printing
-    const unsethidecodebeforeprint:CmdandInfo = {
-        id: 'unsethidecodebeforeprint:JPSLInstructorTools:main-menu',
-        label: 'Disallow hiding of code',
-        caption: 'Unset hide code before print flag for selected cells.'
+    // Unset cells to collapse code before printing
+    const unsetcollapsecodebeforeprint:CmdandInfo = {
+        id: 'unsetcollapsecodebeforeprint:JPSLInstructorTools:main-menu',
+        label: 'Disallow collapsing of code',
+        caption: 'Unset collapse code before print flag for selected cells.'
     };
-    commands.addCommand(unsethidecodebeforeprint.id, {
-      label: unsethidecodebeforeprint.label,
-      caption: unsethidecodebeforeprint.caption,
+    commands.addCommand(unsetcollapsecodebeforeprint.id, {
+      label: unsetcollapsecodebeforeprint.label,
+      caption: unsetcollapsecodebeforeprint.caption,
       execute: () => {
         if (notebookTracker.currentWidget){
             if (notebookTools.selectedCells){
                 for (const cell of notebookTools.selectedCells){
                     let metadata = cell.model.getMetadata('JPSL')
                     if (!metadata) {
-                        cell.model.setMetadata('JPSL',{"hide_code_on_print": false});
+                        cell.model.setMetadata('JPSL',{"collapse_code_on_print": false});
                     } else {
-                        metadata.hide_code_on_print = false;
+                        metadata.collapse_code_on_print = false;
                         cell.model.setMetadata('JPSL', metadata);
                     }
                     cell.node.removeAttribute("style");
                 }
             } else {
-                window.alert("Unset of hide code before printing flag failed. Did you select cells?");
+                window.alert("Unset of collapse code before printing flag failed. Did you select cells?");
             }
             } else {
-                let alertstr = 'Unset of hide code before printing flag failed. Try the Property Inspector advanced';
-                 alertstr += ' mode andenter "JPSL":{"hide_code_on_print": false}.';
+                let alertstr = 'Unset of collapse code before printing flag failed. Try the Property Inspector advanced';
+                 alertstr += ' mode andenter "JPSL":{"collapse_code_on_print": false}.';
                 window.alert(alertstr);
             }
-        if (debug) {console.log('Unset of hide code before printing flag has been called.');}
+        if (debug) {console.log('Unset of collapse code before printing flag has been called.');}
       },
     });
 
-    // Indicate hide code before printing cells
-    const indicatehidecodebeforeprint:CmdandInfo = {
-        id: 'indicatehidecodebeforeprint:JPSLInstructorTools:main-menu',
-        label: 'Indicate hide code before print cells',
-        caption: 'Indicate hide code before print cells.'
+    // Indicate collapse code before printing cells
+    const indicatecollapsecodebeforeprint:CmdandInfo = {
+        id: 'indicatecollapsecodebeforeprint:JPSLInstructorTools:main-menu',
+        label: 'Indicate collapse code before print cells',
+        caption: 'Indicate collapse code before print cells.'
     };
-    commands.addCommand(indicatehidecodebeforeprint.id, {
-      label: indicatehidecodebeforeprint.label,
-      caption: indicatehidecodebeforeprint.caption,
+    commands.addCommand(indicatecollapsecodebeforeprint.id, {
+      label: indicatecollapsecodebeforeprint.label,
+      caption: indicatecollapsecodebeforeprint.caption,
       execute: () => {
         if (notebookTracker.currentWidget){
             if (notebookTracker.currentWidget.content.widgets){
@@ -530,32 +530,32 @@ const plugin: JupyterFrontEndPlugin<void> = {
                 for (const cell of notebookTracker.currentWidget.content.widgets){
                     let metadata = cell.model.getMetadata('JPSL');
                     if (metadata){
-                        if (metadata.hide_code_on_print){
+                        if (metadata.collapse_code_on_print){
                             cell.node.setAttribute("style","background-color:orange;");
                             found +=1;
                         }
                     }
                 }
-            if (found == 0) {window.alert("No hide code before print cells found.");}
+            if (found == 0) {window.alert("No collapse code before print cells found.");}
             } else {
                 window.alert("No notebook cells found.");
             }
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        if (debug) {console.log(`Indicate hide code before print cells has been called.`);}
+        if (debug) {console.log(`Indicate collapse code before print cells has been called.`);}
       },
     });
 
-    // Undo indicate hide code before printing cells
-    const undoindicatehidecodebeforeprint:CmdandInfo = {
-        id: 'undoindicatehidecodebeforeprint:JPSLInstructorTools:main-menu',
-        label: 'Undo indicate hide code before print cells',
-        caption: 'Undo indicate hide code before print cells.'
+    // Undo indicate collapse code before printing cells
+    const undoindicatecollapsecodebeforeprint:CmdandInfo = {
+        id: 'undoindicatecollapsecodebeforeprint:JPSLInstructorTools:main-menu',
+        label: 'Undo indicate collapse code before print cells',
+        caption: 'Undo indicate collapse code before print cells.'
     };
-    commands.addCommand(undoindicatehidecodebeforeprint.id, {
-      label: undoindicatehidecodebeforeprint.label,
-      caption: undoindicatehidecodebeforeprint.caption,
+    commands.addCommand(undoindicatecollapsecodebeforeprint.id, {
+      label: undoindicatecollapsecodebeforeprint.label,
+      caption: undoindicatecollapsecodebeforeprint.caption,
       execute: () => {
         if (notebookTracker.currentWidget){
             if (notebookTracker.currentWidget.content.widgets){
@@ -563,20 +563,20 @@ const plugin: JupyterFrontEndPlugin<void> = {
                 for (const cell of notebookTracker.currentWidget.content.widgets){
                     let metadata = cell.model.getMetadata('JPSL');
                     if (metadata){
-                        if (metadata.hide_code_on_print){
+                        if (metadata.collapse_code_on_print){
                             cell.node.removeAttribute("style");
                             found +=1;
                         }
                     }
                 }
-            if (found == 0) {window.alert("No hide code before print cells found.");}
+            if (found == 0) {window.alert("No collapse code before print cells found.");}
             } else {
                 window.alert("No notebook cells found.");
             }
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        if (debug) {console.log(`Undo indicate hide code before print cells has been called.`);}
+        if (debug) {console.log(`Undo indicate collapse code before print cells has been called.`);}
       },
     });
 
@@ -601,7 +601,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                             cell.hide();
                             found +=1;
                         }
-                        if (metadata.hide_code_on_print){
+                        if (metadata.collapse_code_on_print){
                             cell.inputHidden = true;
                             found +=1;
                         }
@@ -639,7 +639,7 @@ const plugin: JupyterFrontEndPlugin<void> = {
                             cell.show();
                             found +=1;
                         }
-                        if (metadata.hide_code_on_print){
+                        if (metadata.collapse_code_on_print){
                             cell.inputHidden = false;
                             found +=1;
                         }
@@ -656,83 +656,83 @@ const plugin: JupyterFrontEndPlugin<void> = {
       },
     });
 
-    // Set hide code in JPSL
-    const sethidecodeJPSL:CmdandInfo = {
-        id: 'sethidecodeJPSL:JPSLInstructorTools:main-menu',
-        label: 'Set hide code in JPSL',
-        caption: 'Set hide code in JPSL flag for selected cells.'
+    // Set collapse code in JPSL
+    const setcollapsecodeJPSL:CmdandInfo = {
+        id: 'setcollapsecodeJPSL:JPSLInstructorTools:main-menu',
+        label: 'Set collapse code in JPSL',
+        caption: 'Set collapse code in JPSL flag for selected cells.'
     };
-    commands.addCommand(sethidecodeJPSL.id, {
-      label: sethidecodeJPSL.label,
-      caption: sethidecodeJPSL.caption,
+    commands.addCommand(setcollapsecodeJPSL.id, {
+      label: setcollapsecodeJPSL.label,
+      caption: setcollapsecodeJPSL.caption,
       execute: () => {
         if (notebookTracker.currentWidget){
             if (notebookTools.selectedCells){
                 for (const cell of notebookTools.selectedCells){
                     let metadata = cell.model.getMetadata('JPSL')
                     if (!metadata) {
-                        cell.model.setMetadata('JPSL',{"hide_code": true});
+                        cell.model.setMetadata('JPSL',{"collapse_code": true});
                     } else {
-                        metadata.hide_code = true;
+                        metadata.collapse_code = true;
                         cell.model.setMetadata('JPSL', metadata);
                     }
                     cell.node.setAttribute("style","background-color:beige;");
                 }
             } else {
-                window.alert("Set of hide code in JPSL flag failed. Did you select cells?");
+                window.alert("Set of collapse code in JPSL flag failed. Did you select cells?");
             }
             } else {
-                let alertstr = 'Set of hide code in JPSL flag failed. Try the Property Inspector advanced';
-                 alertstr += ' mode and enter "JPSL":{"hide_code": true}.';
+                let alertstr = 'Set of collapse code in JPSL flag failed. Try the Property Inspector advanced';
+                 alertstr += ' mode and enter "JPSL":{"collapse_code": true}.';
                 window.alert(alertstr);
             }
-        if (debug) {console.log('Set of hide code in JPSL flag has been called.');}
+        if (debug) {console.log('Set of collapse code in JPSL flag has been called.');}
       },
     });
 
-    // Unset hide code in JPSL
-    const unsethidecodeJPSL:CmdandInfo = {
-        id: 'unsethidecodeJPSL:JPSLInstructorTools:main-menu',
-        label: 'Unset hide code in JPSL',
-        caption: 'Unset hide code in JPSL flag for selected cells.'
+    // Unset collapse code in JPSL
+    const unsetcollapsecodeJPSL:CmdandInfo = {
+        id: 'unsetcollapsecodeJPSL:JPSLInstructorTools:main-menu',
+        label: 'Unset collapse code in JPSL',
+        caption: 'Unset collapse code in JPSL flag for selected cells.'
     };
-    commands.addCommand(unsethidecodeJPSL.id, {
-      label: unsethidecodeJPSL.label,
-      caption: unsethidecodeJPSL.caption,
+    commands.addCommand(unsetcollapsecodeJPSL.id, {
+      label: unsetcollapsecodeJPSL.label,
+      caption: unsetcollapsecodeJPSL.caption,
       execute: () => {
         if (notebookTracker.currentWidget){
             if (notebookTools.selectedCells){
                 for (const cell of notebookTools.selectedCells){
                     let metadata = cell.model.getMetadata('JPSL')
                     if (!metadata) {
-                        cell.model.setMetadata('JPSL',{"hide_code": false});
+                        cell.model.setMetadata('JPSL',{"collapse_code": false});
                     } else {
-                        metadata.hide_code = false;
+                        metadata.collapse_code = false;
                         cell.model.setMetadata('JPSL', metadata);
                     }
                     cell.node.removeAttribute("style");
                 }
             } else {
-                window.alert("Unset of hide code in JPSL flag failed. Did you select cells?");
+                window.alert("Unset of collapse code in JPSL flag failed. Did you select cells?");
             }
             } else {
-                let alertstr = 'Unset of hide code in JPSL flag failed. Try the Property Inspector advanced';
-                 alertstr += ' mode and enter "JPSL":{"hide_code": false}.';
+                let alertstr = 'Unset of collapse code in JPSL flag failed. Try the Property Inspector advanced';
+                 alertstr += ' mode and enter "JPSL":{"collapse_code": false}.';
                 window.alert(alertstr);
             }
-        if (debug) {console.log('Unset of hide code in JPSL flag has been called.');}
+        if (debug) {console.log('Unset of collapse code in JPSL flag has been called.');}
       },
     });
 
-    // Indicate hide code in JPSL
-    const indicatehidecodeJPSL:CmdandInfo = {
-        id: 'indicatehidecodeJPSL:JPSLInstructorTools:main-menu',
-        label: 'Indicate hide code in JPSL cells',
-        caption: 'Indicate hide code in JPSL cells.'
+    // Indicate collapse code in JPSL
+    const indicatecollapsecodeJPSL:CmdandInfo = {
+        id: 'indicatecollapsecodeJPSL:JPSLInstructorTools:main-menu',
+        label: 'Indicate collapse code in JPSL cells',
+        caption: 'Indicate collapse code in JPSL cells.'
     };
-    commands.addCommand(indicatehidecodeJPSL.id, {
-      label: indicatehidecodeJPSL.label,
-      caption: indicatehidecodeJPSL.caption,
+    commands.addCommand(indicatecollapsecodeJPSL.id, {
+      label: indicatecollapsecodeJPSL.label,
+      caption: indicatecollapsecodeJPSL.caption,
       execute: () => {
         if (notebookTracker.currentWidget){
             if (notebookTracker.currentWidget.content.widgets){
@@ -740,32 +740,32 @@ const plugin: JupyterFrontEndPlugin<void> = {
                 for (const cell of notebookTracker.currentWidget.content.widgets){
                     let metadata = cell.model.getMetadata('JPSL');
                     if (metadata){
-                        if (metadata.hide_code){
+                        if (metadata.collapse_code){
                             cell.node.setAttribute("style","background-color:beige;");
                             found +=1;
                         }
                     }
                 }
-            if (found == 0) {window.alert("No hide code in JPSL cells found.");}
+            if (found == 0) {window.alert("No collapse code in JPSL cells found.");}
             } else {
                 window.alert("No notebook cells found.");
             }
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        if (debug) {console.log(`Indicate hide code in JPSL cells has been called.`);}
+        if (debug) {console.log(`Indicate collapse code in JPSL cells has been called.`);}
       },
     });
 
-    // Undo indicate hide code in JPSL
-    const undoindicatehidecodeJPSL:CmdandInfo = {
-        id: 'undoindicatehidecodeJPSL:JPSLInstructorTools:main-menu',
-        label: 'Undo indicate hide code in JPSL cells',
-        caption: 'Undo indicate hide code in JPSL cells.'
+    // Undo indicate collapse code in JPSL
+    const undoindicatecollapsecodeJPSL:CmdandInfo = {
+        id: 'undoindicatecollapsecodeJPSL:JPSLInstructorTools:main-menu',
+        label: 'Undo indicate collapse code in JPSL cells',
+        caption: 'Undo indicate collapse code in JPSL cells.'
     };
-    commands.addCommand(undoindicatehidecodeJPSL.id, {
-      label: undoindicatehidecodeJPSL.label,
-      caption: undoindicatehidecodeJPSL.caption,
+    commands.addCommand(undoindicatecollapsecodeJPSL.id, {
+      label: undoindicatecollapsecodeJPSL.label,
+      caption: undoindicatecollapsecodeJPSL.caption,
       execute: () => {
         if (notebookTracker.currentWidget){
             if (notebookTracker.currentWidget.content.widgets){
@@ -773,24 +773,24 @@ const plugin: JupyterFrontEndPlugin<void> = {
                 for (const cell of notebookTracker.currentWidget.content.widgets){
                     let metadata = cell.model.getMetadata('JPSL');
                     if (metadata){
-                        if (metadata.hide_code){
+                        if (metadata.collapse_code){
                             cell.node.removeAttribute("style");
                             found +=1;
                         }
                     }
                 }
-            if (found == 0) {window.alert("No hide code in JPSL cells found.");}
+            if (found == 0) {window.alert("No collapse code in JPSL cells found.");}
             } else {
                 window.alert("No notebook cells found.");
             }
             } else {
                 window.alert("You do not appear to have a notebook in front or selected. Try again.");
             }
-        if (debug) {console.log(`Undo indicate hide code in JPSL cells has been called.`);}
+        if (debug) {console.log(`Undo indicate collapse code in JPSL cells has been called.`);}
       },
     });
 
-    // Undo indicate hide code in JPSL
+    // Undo indicate collapse code in JPSL
     const undoallcellindications:CmdandInfo = {
         id: 'undoallcellindications:JPSLInstructorTools:main-menu',
         label: 'Undo all cell indications',
@@ -801,12 +801,102 @@ const plugin: JupyterFrontEndPlugin<void> = {
       caption: undoallcellindications.caption,
       execute: () => {
         commands.execute('undoindicateprotectcells:JPSLInstructorTools:main-menu');
-        commands.execute('undoindicatehidecodeJPSL:JPSLInstructorTools:main-menu');
+        commands.execute('undoindicatecollapsecodeJPSL:JPSLInstructorTools:main-menu');
         commands.execute('undoindicatehidecellbeforeprint:JPSLInstructorTools:main-menu');
-        commands.execute('undoindicatehidecodebeforeprint:JPSLInstructorTools:main-menu');
+        commands.execute('undoindicatecollapsecodebeforeprint:JPSLInstructorTools:main-menu');
         if (debug) {console.log(`Undo all cell indications has been called.`);}
       },
     });
+
+    // Temporarily hide code of selected cells
+    const hidecode:CmdandInfo = {
+        id: 'hidecode:JPSLInstructorTools:main-menu',
+        label: 'Temporarily hide code of selected cells',
+        caption: 'Temporarily hide code of selected cells.'
+    };
+    commands.addCommand(hidecode.id, {
+      label: hidecode.label,
+      caption: hidecode.caption,
+      execute: () => {
+        if (notebookTracker.currentWidget){
+            if (notebookTools.selectedCells){
+                for (const cell of notebookTools.selectedCells){
+                    const cell_input = cell.inputArea;
+                    const type = cell.model.type;
+                    if (cell_input && type=='code'){
+                        cell_input.node.setAttribute("style","display:none;");
+                    }
+                }
+            } else {
+                window.alert("Temporarily hide selected cell code failed. Did you select cells?");
+            }
+        } else {
+            let alertstr = "Temporarily hide selected cell code failed. Do you have a notebook in front?";
+            window.alert(alertstr);
+        }
+        if (debug) {console.log(`Temporarily hide selected cell code has been called.`);}
+      },
+    });
+
+    // Temporarily hide all code
+    const hideallcode:CmdandInfo = {
+        id: 'hideallcode:JPSLInstructorTools:main-menu',
+        label: 'Temporarily hide all code',
+        caption: 'Temporarily hide all code.'
+    };
+    commands.addCommand(hideallcode.id, {
+      label: hideallcode.label,
+      caption: hideallcode.caption,
+      execute: () => {
+        if (notebookTracker.currentWidget){
+            if (notebookTracker.currentWidget.content.widgets){
+                for (const cell of notebookTracker.currentWidget.content.widgets){
+                    const cell_input = cell.inputArea;
+                    const type = cell.model.type;
+                    if (cell_input && type=='code'){
+                        cell_input.node.setAttribute("style","display:none;");
+                    }
+                }
+            } else {
+                window.alert("Temporarily hide all code failed. Did you have any cells in your notebook?");
+            }
+        } else {
+            let alertstr = "Temporarily hide all code failed. Do you have a notebook in front?";
+            window.alert(alertstr);
+        }
+        if (debug) {console.log(`Temporarily hide all code has been called.`);}
+      },
+    });
+
+    // Show all code
+    const showallcode:CmdandInfo = {
+        id: 'showallcode:JPSLInstructorTools:main-menu',
+        label: 'Show all code',
+        caption: 'Show all code.'
+    };
+    commands.addCommand(showallcode.id, {
+      label: showallcode.label,
+      caption: showallcode.caption,
+      execute: () => {
+        if (notebookTracker.currentWidget){
+            if (notebookTracker.currentWidget.content.widgets){
+                for (const cell of notebookTracker.currentWidget.content.widgets){
+                    const cell_input = cell.inputArea;
+                    if (cell_input){
+                        cell_input.node.removeAttribute("style");
+                    }
+                }
+            } else {
+                window.alert("Show all code failed. Are there any cells in your notebook?");
+            }
+        } else {
+            let alertstr = "Show all code failed. Do you have a notebook in front?";
+            window.alert(alertstr);
+        }
+        if (debug) {console.log(`Show all code has been called.`);}
+      },
+    });
+
 
     // Insert Instructions BoilerPlate
     const insertInstructionBoilerPlate:CmdandInfo = {
@@ -1155,20 +1245,20 @@ const plugin: JupyterFrontEndPlugin<void> = {
     hidebeforeprintsubmenu.addItem({
          type:"separator"});
     hidebeforeprintsubmenu.addItem({
-         command: sethidecodebeforeprint.id,
-         args: {label: sethidecodebeforeprint.label, caption: sethidecodebeforeprint.caption}
+         command: setcollapsecodebeforeprint.id,
+         args: {label: setcollapsecodebeforeprint.label, caption: setcollapsecodebeforeprint.caption}
     });
     hidebeforeprintsubmenu.addItem({
-         command: unsethidecodebeforeprint.id,
-         args: {label: unsethidecodebeforeprint.label, caption: unsethidecodebeforeprint.caption}
+         command: unsetcollapsecodebeforeprint.id,
+         args: {label: unsetcollapsecodebeforeprint.label, caption: unsetcollapsecodebeforeprint.caption}
     });
     hidebeforeprintsubmenu.addItem({
-         command: indicatehidecodebeforeprint.id,
-         args: {label: indicatehidecodebeforeprint.label, caption: indicatehidecodebeforeprint.caption}
+         command: indicatecollapsecodebeforeprint.id,
+         args: {label: indicatecollapsecodebeforeprint.label, caption: indicatecollapsecodebeforeprint.caption}
     });
     hidebeforeprintsubmenu.addItem({
-         command: undoindicatehidecodebeforeprint.id,
-         args: {label: undoindicatehidecodebeforeprint.label, caption: undoindicatehidecodebeforeprint.caption}
+         command: undoindicatecollapsecodebeforeprint.id,
+         args: {label: undoindicatecollapsecodebeforeprint.label, caption: undoindicatecollapsecodebeforeprint.caption}
     });
     hidebeforeprintsubmenu.addItem({
         type:"separator"});
@@ -1181,24 +1271,24 @@ const plugin: JupyterFrontEndPlugin<void> = {
      args: {label: undohidebeforeprint.label, caption: undohidebeforeprint.caption}
     });
 
-    // Hide code in JPSL submenu
-     const JPSLhidecodesubmenu = new MenuSvg({commands});
-     JPSLhidecodesubmenu.title.label = 'Hide code in JPSL'
-     JPSLhidecodesubmenu.addItem({
-         command: sethidecodeJPSL.id,
-         args: {label: sethidecodeJPSL.label, caption: sethidecodeJPSL.caption}
+    // Collapse code in JPSL submenu
+     const JPSLcollapsecodesubmenu = new MenuSvg({commands});
+     JPSLcollapsecodesubmenu.title.label = 'Collapse code in JPSL'
+     JPSLcollapsecodesubmenu.addItem({
+         command: setcollapsecodeJPSL.id,
+         args: {label: setcollapsecodeJPSL.label, caption: setcollapsecodeJPSL.caption}
      });
-     JPSLhidecodesubmenu.addItem({
-         command: unsethidecodeJPSL.id,
-         args: {label: unsethidecodeJPSL.label, caption: unsethidecodeJPSL.caption}
+     JPSLcollapsecodesubmenu.addItem({
+         command: unsetcollapsecodeJPSL.id,
+         args: {label: unsetcollapsecodeJPSL.label, caption: unsetcollapsecodeJPSL.caption}
      });
-     JPSLhidecodesubmenu.addItem({
-         command: indicatehidecodeJPSL.id,
-         args: {label: indicatehidecodeJPSL.label, caption: indicatehidecodeJPSL.caption}
+     JPSLcollapsecodesubmenu.addItem({
+         command: indicatecollapsecodeJPSL.id,
+         args: {label: indicatecollapsecodeJPSL.label, caption: indicatecollapsecodeJPSL.caption}
      });
-     JPSLhidecodesubmenu.addItem({
-         command: undoindicatehidecodeJPSL.id,
-         args: {label: undoindicatehidecodeJPSL.label, caption: undoindicatehidecodeJPSL.caption}
+     JPSLcollapsecodesubmenu.addItem({
+         command: undoindicatecollapsecodeJPSL.id,
+         args: {label: undoindicatecollapsecodeJPSL.label, caption: undoindicatecollapsecodeJPSL.caption}
      });
 
 
@@ -1231,12 +1321,24 @@ const plugin: JupyterFrontEndPlugin<void> = {
      });
     menu.addItem({
          type: "submenu",
-         submenu: JPSLhidecodesubmenu,
-         args: {label: JPSLhidecodesubmenu.title.label}
+         submenu: JPSLcollapsecodesubmenu,
+         args: {label: JPSLcollapsecodesubmenu.title.label}
      });
     menu.addItem({
         command: undoallcellindications.id,
         args: {label:undoallcellindications.label, caption: undoallcellindications.caption}
+    });
+    menu.addItem({
+        command: hidecode.id,
+        args: {label:hidecode.label, caption: hidecode.caption}
+    });
+    menu.addItem({
+        command: hideallcode.id,
+        args: {label:hideallcode.label, caption: hideallcode.caption}
+    });
+    menu.addItem({
+        command: showallcode.id,
+        args: {label:showallcode.label, caption: showallcode.caption}
     });
     menu.addItem({
         command: insertmakePDFInstructions.id,

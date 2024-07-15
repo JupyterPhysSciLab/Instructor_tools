@@ -1,6 +1,6 @@
 {
     "name": "jupyter-instructortools",
-    "version": "0.7.0",
+    "version": "0.8.0",
     "description": "Tool to assist instructors in creating notebook templates for student Jupyter worksheets.",
     "keywords": [
         "jupyter",
